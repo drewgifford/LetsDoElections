@@ -1,28 +1,38 @@
-import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior } from "@sapphire/framework";
-import { GatewayIntentBits, ActivitiesOptions, ActivityType } from 'discord.js';
-
-ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);
+import { GatewayIntentBits, ActivitiesOptions, ActivityType, Partials } from 'discord.js';
+import DiscordClient from "./client";
+import { join } from "path"
+import { readdirSync } from "fs";
+import registerCommands from "./scripts/registerCommands"
 
 require('dotenv').config();
 
-const client = new SapphireClient({
 
-    intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-    loadMessageCommandListeners: true
+
+const client = new DiscordClient({
+
+    intents: [
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMembers,
+    
+    ],
+    partials: [
+        Partials.Message,
+        Partials.Reaction,
+        Partials.GuildMember
+    ]
 
 });
 
-client.on("ready", () => {
+const handlersPath = join(__dirname, "handlers");
+const handlerFiles = readdirSync(handlersPath).filter((file) => file.endsWith("Handler.ts"));
 
-    client.user?.setActivity("discord.gg/lde", 
-    {
-        type: ActivityType.Playing,
-        url: "https://discord.gg/lde"
-    })
+handlerFiles.forEach((handlerFile: any) => {
+    const filePath = join(handlersPath, handlerFile);
+    import(filePath).then((handler) => handler.default(client));
+});
 
-    console.log("I am alive!");
-
-})
+//registerCommands();
 
 client.login(process.env.BOT_TOKEN);
-

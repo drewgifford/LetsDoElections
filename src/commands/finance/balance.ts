@@ -1,58 +1,79 @@
-import { ApplyOptions } from "@sapphire/decorators";
-import { Command, CommandOptions, AliasPiece, ApplicationCommandRegistry } from "@sapphire/framework";
-import { ChatInputCommandInteraction, SlashCommandUserOption, EmbedBuilder } from "discord.js"
+import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
+import { DbTable, UuidFields, getRow, listRows } from "../../db/database";
+import { TableUser } from "../../models/Models";
+import { notifyNoCharacter, notifyOtherNoCharacter } from "../../util/response";
+import { choice } from "../../util/math";
+
+let tips = [
+    "Your campaign balance resets every cycle.",
+    "Pay another user with /pay.",
+    "Transfer funds from your bank to your campaign using /fund"
+]
+
+export default {
+
+    data: new SlashCommandBuilder()
+        .setName("balance")
+        .setDescription("Check the balance of yourself or another user.")
+        .addUserOption(option => option
+
+            .setName("user")
+            .setDescription("The user to check the balance of. Defaults to yourself.")
+            .setRequired(false)
+
+        ),
 
 
-@ApplyOptions<Command.Options>({
-    name: "balance",
-	description: 'Checks the balance of yourself or another user'
-})
-export class BalanceCommand extends Command {
+    async execute(interaction: CommandInteraction) { 
 
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+        let user: User = interaction.options.getUser("user", false) || interaction.user;
 
-        console.log("i am registering")
+        let userText = `<@${user.id}>'s`;
 
-        registry.registerChatInputCommand((builder) => {
+        if (user == interaction.user) userText = "Your own";
 
-            builder
-                .setName("balance")
-                .setDescription("test")
 
-                // User option
-                .addUserOption(option => 
-                    option
-                        .setName('user')
-                        .setDescription('User to check balance')
-                        .setRequired(false)
-                );
+        let userId = user.id;
+        
+        let dbUser = await getRow(DbTable.Users, UuidFields.Users, userId) as TableUser | null;
 
-        }, {
-            guildIds: ["813999804933865472"]
-        })
+        if (dbUser){
+
+            let bankBalance = (dbUser.BankBalance | 0).toLocaleString("en-US");
+            let campaignBalance = (dbUser.CampaignBalance | 0).toLocaleString("en-US");
+
+            console.log(dbUser)
+
+            // Respond with Embed
+            let embed = new EmbedBuilder()
+                .setAuthor({
+                    name: "User Balance",
+                    iconURL: "https://em-content.zobj.net/source/skype/289/money-bag_1f4b0.png"
+                })
+                .setDescription(
+                    `Checking **${userText}** balance:\n\n` + 
+                    `🏦 **Bank:** \`$${bankBalance}\`\n` + 
+                    `🚩 **Campaign:** \`$${campaignBalance}\`\n\u200b`
+                )
+                .setFooter({
+                    text: "🛈 Tip: " + choice(tips)
+                })
+            interaction.reply({embeds: [embed]})
+
+        }
+        else {
+
+            if (user.id == interaction.user.id){
+                return await notifyNoCharacter(interaction);
+            } else {
+                return await notifyOtherNoCharacter(interaction, user);
+            }
+
+        }
+        
+
+
     }
 
-    public override chatInputRun(interaction: ChatInputCommandInteraction){
 
-        let user = interaction.options.getUser('user', false);
-
-        if (!user) user = interaction.user;
-
-        let embed = new EmbedBuilder()
-            .setAuthor({
-                name: 'Finance', iconURL: "https://cdn-icons-png.flaticon.com/512/4021/4021642.png"
-            })
-            .setTitle("User Balance")
-            .setDescription("Hello world!");
-
-        return interaction.reply({
-
-
-            embeds: [embed]
-        })
-
-        
-        
-
-    }
 }
