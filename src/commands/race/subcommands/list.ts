@@ -1,12 +1,12 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
 import { DbTable, listRows } from "../../../db/database";
-import { TableParty } from "../../../models/Models";
+import { TableRace } from "../../../models/Models";
 import { choice } from "../../../util/math";
 
 let tips = [
-    "View detailed information about a party with /party info",
-    "Join a party using /party join",
-    "View a party's caucuses with /caucus list"
+    "View detailed information about a race with /race info",
+    "Join a race using /race join",
+    "View a race's caucuses with /caucus list"
 ]
 
 
@@ -14,16 +14,16 @@ export default {
 
     async execute(interaction: ChatInputCommandInteraction) { 
         
-        let parties = (await listRows(DbTable.Parties)) as TableParty[];
+        let races = (await listRows(DbTable.Races)) as TableRace[];
 
-        parties = parties.sort((a,b) => {
+        races = races.sort((a,b) => {
             if (a.Members < b.Members) return 1;
             return -1;
         })
 
         let embed = new EmbedBuilder()
             .setAuthor({
-                name: "List of Active Parties",
+                name: "List of Races",
                 iconURL: "https://cdn-icons-png.flaticon.com/512/2673/2673205.png"
             })
             .setFooter({
@@ -31,14 +31,14 @@ export default {
             })
 
         
-        for (var party of parties){
+        for (var race of races){
 
             let locked = "";
-            if(party.Locked) locked = " :lock:";
+            if(race.Locked) locked = " :lock:";
 
             embed.addFields({
-                name: `${party.Emoji} ${party.Name} - ${party.Members} members${locked}`,
-                value: `*${party.ShortDesc}*`
+                name: `${race.Emoji} ${race.Name} - ${race.Members} running${locked}`,
+                value: `*${race.Description}*`
             })
 
 

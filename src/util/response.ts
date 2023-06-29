@@ -18,7 +18,7 @@ export async function notifyError(interaction: CommandInteraction, message: stri
         })
         .setDescription(message);
 
-    return await interaction.reply({embeds: [embed]})
+    return await interaction.reply({embeds: [embed], ephemeral: true})
 
 
 }

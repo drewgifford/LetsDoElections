@@ -72,7 +72,7 @@ export default {
             },
             {
                 name: `Members - ${party.Members}`,
-                value: `${usersString}\n\n*${party.LongDesc}*`
+                value: `${usersString || "*Nobody is in this party. You could be the first!*"}\n\n*${party.LongDesc}*`
             }
             
             )

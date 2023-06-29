@@ -1,14 +1,12 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/database";
-import { TableParty, TableUser } from "../../../models/Models";
+import { TableRace, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
 import { notifyError, notifyNoCharacter } from "../../../util/response";
 var _ = require("lodash")
 
 let tips = [
-    "Set your caucus with /caucus join",
-    "Change your character's name with /character edit",
-    "View a party's caucuses with /caucus list"
+    "Join a race using /race join"
 ]
 
 
@@ -17,9 +15,6 @@ export default {
 
     async execute(interaction: ChatInputCommandInteraction) {
 
-        let partyId = interaction.options.get("party", true).value as string;
-        
-        let party = (await getRow(DbTable.Parties, UuidFields.Parties, partyId)) as TableParty;
         let userDb = (await getRow(DbTable.Users, UuidFields.Users, interaction.user.id)) as TableUser;
 
         // CHECK #0: Does the user have a character?
@@ -27,17 +22,15 @@ export default {
             return await notifyNoCharacter(interaction);
         }
 
-        if(party.Locked){
-            return await notifyError(interaction, "This race is locked.");
+        // CHECK #1: Does the user have a race?
+        if (!userDb.Race || userDb.Race.length == 0){
+            return await notifyError(interaction, "You are not already in a race. Join a race using `/race join`")
         }
 
-        // CHECK #1: Does the user have a party?
-        if (userDb.Party.length != 0){
-            return await notifyError(interaction, "You are already in a party. If this is a mistake or you wish to switch parties, contact an admin.")
-        }
+        let race = (await getRow(DbTable.Races, UuidFields.Races, userDb.Race[0].value)) as TableRace;
 
         // GET EMOJI ID TO USE
-        let emoji = party.Emoji
+        let emoji = race.Emoji
         let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
         
         let emojiUrl = undefined;
@@ -46,11 +39,9 @@ export default {
             emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
         }
 
-        let members = party.Users.length + 1; // this is 2
-
         // Update user row
         let response = await updateRow(DbTable.Users, userDb.id, {
-            "Party": [ party.id ]
+            "Race": []
         })
 
         if(!response){
@@ -59,13 +50,13 @@ export default {
 
         let embed = new EmbedBuilder()
             .setAuthor({
-                name: `Joined ${party.Name} Party!`,
+                name: `Dropped out of ${race.Name} Race`,
                 iconURL: emojiUrl
             })
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })
-            .setDescription(`You have successfully joined a party! You are the **${nth(members)}** member.`)
+            .setDescription(`You have successfully dropped out of the race.`)
 
 
 

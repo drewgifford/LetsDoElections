@@ -27,10 +27,13 @@ export default {
             return await notifyNoCharacter(interaction);
         }
 
+        if(caucus.Locked){
+            return await notifyError(interaction, "This race is locked.");
+        }
+
         // CHECK #1: Does the user have a party?
         if (userDb.Party.length == 0){
             return await notifyError(interaction, "You do not have a party. Join a party with `/setparty`")
-            return interaction.reply("TODO: No party");
         }
 
         // CHECK #2: Is the user's party the same as the caucus?

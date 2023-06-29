@@ -30,11 +30,11 @@ export default {
 
         let userText = `<@${user.id}>'s`;
 
-        if (user == interaction.user) userText = "Your own";
+        if (user == interaction.user) userText = "your";
 
 
         let userId = user.id;
-        
+
         let dbUser = await getRow(DbTable.Users, UuidFields.Users, userId) as TableUser | null;
 
         if (dbUser){
@@ -51,9 +51,9 @@ export default {
                     iconURL: "https://em-content.zobj.net/source/skype/289/money-bag_1f4b0.png"
                 })
                 .setDescription(
-                    `Checking **${userText}** balance:\n\n` + 
-                    `🏦 **Bank:** \`$${bankBalance}\`\n` + 
-                    `🚩 **Campaign:** \`$${campaignBalance}\`\n\u200b`
+                    `Viewing **${userText}** wallet:\n\n` + 
+                    `💰 **Bank:** \`$${bankBalance}\`\n` + 
+                    `💸 **Campaign:** \`$${campaignBalance}\`\n\u200b`
                 )
                 .setFooter({
                     text: "🛈 Tip: " + choice(tips)

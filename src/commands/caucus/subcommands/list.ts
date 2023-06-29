@@ -36,6 +36,7 @@ export default {
 
 
         let embed = new EmbedBuilder()
+        
             .setAuthor({
                 name: `${party.Name} Caucuses`,
                 iconURL: emojiUrl
@@ -47,9 +48,11 @@ export default {
         
         for (var caucus of caucuses){
 
+            let locked = "";
+            if(caucus.Locked) locked = " :lock:";
 
             embed.addFields({
-                name: `${caucus.Emoji} ${caucus.Name} - ${caucus.Members} members`,
+                name: `${caucus.Emoji} ${caucus.Name} - ${caucus.Members} members${locked}`,
                 value: `*${caucus.Description}*`
             })
 

@@ -1,14 +1,13 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/database";
-import { TableParty, TableUser } from "../../../models/Models";
+import { TableState, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
 import { notifyError, notifyNoCharacter } from "../../../util/response";
 var _ = require("lodash")
 
 let tips = [
-    "Set your caucus with /caucus join",
+    "Set your district with /district join",
     "Change your character's name with /character edit",
-    "View a party's caucuses with /caucus list"
 ]
 
 
@@ -17,9 +16,9 @@ export default {
 
     async execute(interaction: ChatInputCommandInteraction) {
 
-        let partyId = interaction.options.get("party", true).value as string;
+        let stateId = interaction.options.get("state", true).value as string;
         
-        let party = (await getRow(DbTable.Parties, UuidFields.Parties, partyId)) as TableParty;
+        let state = (await getRow(DbTable.States, UuidFields.States, stateId)) as TableState;
         let userDb = (await getRow(DbTable.Users, UuidFields.Users, interaction.user.id)) as TableUser;
 
         // CHECK #0: Does the user have a character?
@@ -27,30 +26,25 @@ export default {
             return await notifyNoCharacter(interaction);
         }
 
-        if(party.Locked){
+        if(state.Locked){
             return await notifyError(interaction, "This race is locked.");
         }
 
-        // CHECK #1: Does the user have a party?
-        if (userDb.Party.length != 0){
-            return await notifyError(interaction, "You are already in a party. If this is a mistake or you wish to switch parties, contact an admin.")
+        if(!state){
+            return await notifyError(interaction, `The state ${stateId} doesn't exist.`)
         }
 
-        // GET EMOJI ID TO USE
-        let emoji = party.Emoji
-        let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
-        
-        let emojiUrl = undefined;
-
-        if(emojiId){
-            emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
+        // CHECK #1: Does the user have a state?
+        if (userDb.State.length != 0){
+            return await notifyError(interaction, "You are already in a state. If this is a mistake or you wish to switch states, contact an admin.")
         }
 
-        let members = party.Users.length + 1; // this is 2
+
+        let members = state.Users.length + 1; // this is 2
 
         // Update user row
         let response = await updateRow(DbTable.Users, userDb.id, {
-            "Party": [ party.id ]
+            "State": [ state.id ]
         })
 
         if(!response){
@@ -59,13 +53,13 @@ export default {
 
         let embed = new EmbedBuilder()
             .setAuthor({
-                name: `Joined ${party.Name} Party!`,
-                iconURL: emojiUrl
+                name: `Joined ${state.Name}!`,
+                iconURL: "https://flagcdn.com/40x30/us-" + state.Uuid.toLowerCase() + ".png"
             })
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })
-            .setDescription(`You have successfully joined a party! You are the **${nth(members)}** member.`)
+            .setDescription(`You have successfully joined a state! You are the **${nth(members)}** member.`)
 
 
 

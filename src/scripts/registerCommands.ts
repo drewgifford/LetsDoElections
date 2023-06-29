@@ -28,6 +28,8 @@ export default function registerCommands(){
 
             const command = (await import(file)).default;
 
+            console.log(file, "loading");
+
             commands.push(command.data.toJSON());
         }
 

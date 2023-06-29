@@ -16,10 +16,22 @@ export interface TableUser extends TableRow {
     Party: any[],
     State: any[],
     Caucus: any[]
+    Race: any[]
 
     CampaignBalance: number,
     BankBalance: number,
 
+}
+
+export interface TableRace extends TableRow {
+    Name: string,
+    Emoji: string,
+    Members: number,
+    Role: string,
+    Locked: boolean,
+    Description: string,
+    States: any[],
+    Users: any[]
 }
 
 export interface TableCaucus extends TableRow {
@@ -28,7 +40,8 @@ export interface TableCaucus extends TableRow {
     Emoji: string,
     Role: string,
     Description: string,
-    Party: any[]
+    Locked: boolean,
+    Party: any[],
     Users: any[],
     Balance: number,
     UserBalance: number,
@@ -43,11 +56,21 @@ export interface TableParty extends TableRow {
     Role: string,
     ShortDesc: string,
     LongDesc: string,
+    Locked: boolean,
     Users: any[],
     Caucuses: any[],
     Balance: number,
     CaucusBalance: number,
     UserBalance: number,
+}
+
+export interface TableState extends TableRow {
+
+    Name: string,
+    Districts: number,
+    Locked: boolean,
+    Users: any[]
+
 }
 
 type CommandExecution = (interaction: CommandInteraction) => any
