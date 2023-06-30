@@ -33,6 +33,6 @@ handlerFiles.forEach((handlerFile: any) => {
     import(filePath).then((handler) => handler.default(client));
 });
 
-//registerCommands();
+registerCommands();
 
 client.login(process.env.BOT_TOKEN);
