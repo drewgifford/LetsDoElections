@@ -81,7 +81,7 @@ export default class Paginator {
         if (items.results.length == 0){
             this.baseEmbed.addFields({
                 name: "No results",
-                value: "We could not find any results that match your search criteria."
+                value: "Could not find any results that match the search criteria."
             })
         }
 

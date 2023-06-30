@@ -2,6 +2,7 @@ import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputC
 import { DbTable, listRows } from "../../../db/database";
 import { TableRace } from "../../../models/Models";
 import { choice } from "../../../util/math";
+import { EMOJI_RACE } from "../../../util/statics";
 
 let tips = [
     "View detailed information about a race with /race info",
@@ -22,10 +23,7 @@ export default {
         })
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: "List of Races",
-                iconURL: "https://cdn-icons-png.flaticon.com/512/2673/2673205.png"
-            })
+            .setTitle(`${EMOJI_RACE} List of Races`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

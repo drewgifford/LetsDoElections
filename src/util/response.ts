@@ -1,4 +1,5 @@
 import { Interaction, EmbedBuilder, User, CommandInteraction } from "discord.js";
+import { EMOJI_ERROR } from "./statics";
 
 export async function notifyNoCharacter(interaction: any){
     return await notifyError(interaction, `You have not yet created a character. To create your character, use \`/editcharacter\`.`)
@@ -12,10 +13,7 @@ export async function notifyOtherNoCharacter(interaction: any, user: User){
 export async function notifyError(interaction: any, message: string){
 
     let embed = new EmbedBuilder()
-        .setAuthor({
-            name: "Error Running Command",
-            iconURL: "https://em-content.zobj.net/source/skype/289/warning_26a0-fe0f.png"
-        })
+        .setTitle(`${EMOJI_ERROR} Error Running Command`)
         .setDescription(message);
 
     return await interaction.reply({embeds: [embed], ephemeral: true})

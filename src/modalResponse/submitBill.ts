@@ -3,6 +3,7 @@ import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, T
 import { TableCaucus, TableChamber, TableDocket, TableParty, TableUser } from "../models/Models";
 import { DbTable, UuidFields, createRow, getRow, updateRow } from "../db/database";
 import { notifyError, notifyNoCharacter } from "../util/response";
+import { EMOJI_SUCCESS } from "../util/statics";
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
     
@@ -37,10 +38,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     
 
     let embed = new EmbedBuilder()
-        .setAuthor({
-            name: "Submitted Bill",
-            iconURL: "https://pbs.twimg.com/profile_images/642070518183555073/zNi9uqQy_400x400.jpg"
-        })
+        .setTitle(`${EMOJI_SUCCESS} Bill Submitted`)
         .setDescription(
             `${emoji} \`${billId}\` **${name}** has been placed in the ${docket.Name} docket.`
         )

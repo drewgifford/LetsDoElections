@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows } from "../../db/database";
 import { TableUser } from "../../models/Models";
 import { notifyNoCharacter, notifyOtherNoCharacter } from "../../util/response";
 import { choice } from "../../util/math";
+import { EMOJI_FINANCE } from "../../util/statics";
 
 let tips = [
     "Your campaign balance resets every cycle.",
@@ -46,10 +47,7 @@ export default {
 
             // Respond with Embed
             let embed = new EmbedBuilder()
-                .setAuthor({
-                    name: "User Balance",
-                    iconURL: "https://em-content.zobj.net/source/skype/289/money-bag_1f4b0.png"
-                })
+                .setTitle(`${EMOJI_FINANCE} User Balance`)
                 .setDescription(
                     `Viewing **${userText}** wallet:\n\n` + 
                     `💰 **Bank:** \`$${bankBalance}\`\n` + 

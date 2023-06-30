@@ -36,11 +36,7 @@ export default {
 
 
         let embed = new EmbedBuilder()
-        
-            .setAuthor({
-                name: `${party.Name} Caucuses`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${party.Emoji} ${party.Name} Caucuses`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

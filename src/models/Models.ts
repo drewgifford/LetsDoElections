@@ -23,6 +23,9 @@ export interface TableUser extends TableRow {
     CampaignBalance: number,
     BankBalance: number,
 
+    WhipCaucus: any[],
+    WhipParty: any[]
+
 }
 
 export interface TableRace extends TableRow {
@@ -49,6 +52,7 @@ export interface TableCaucus extends TableRow {
     Balance: number,
     UserBalance: number,
     Dues: number,
+    Seats: string,
 }
 
 export interface TableParty extends TableRow {
@@ -102,10 +106,12 @@ export interface TableBill extends TableRow {
     Name: string,
     Url: string,
     Author: any[],
-    Created: Date,
+    Created: string,
+    Edited: string,
     Chamber: any[],
     Party: any[],
     Caucus: any[],
+    Docket: any[],
     Status: any,
     Cosponsors: any[],
     Description: string,
@@ -132,7 +138,7 @@ export class Command {
     execute: CommandExecution;
 
     constructor(slashCommand: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder, execute: CommandExecution, subCommands?: SubCommand[]){
-
+76
         this.slashCommand = slashCommand;
         this.subCommands = subCommands || [];
         this.execute = execute;

@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/da
 import { TableState, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
 import { notifyError, notifyNoCharacter } from "../../../util/response";
+import { EMOJI_SUCCESS } from "../../../util/statics";
 var _ = require("lodash")
 
 let tips = [
@@ -52,10 +53,7 @@ export default {
         }
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `Joined ${state.Name}!`,
-                iconURL: "https://flagcdn.com/40x30/us-" + state.Uuid.toLowerCase() + ".png"
-            })
+            .setTitle(`${EMOJI_SUCCESS} Joined ${state.Name}!`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

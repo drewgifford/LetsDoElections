@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows } from "../../../db/database";
 import { TableCaucus, TableParty, TableUser } from "../../../models/Models";
 import { notifyNoCharacter, notifyOtherNoCharacter } from "../../../util/response";
 import { choice } from "../../../util/math";
+import { EMOJI_CHARACTER } from "../../../util/statics";
 
 let tips = [
     "Edit your character with /character edit",
@@ -58,10 +59,7 @@ export default {
 
             // Respond with Embed
             let embed = new EmbedBuilder()
-                .setAuthor({
-                    name: "Character Information",
-                    iconURL: "https://em-content.zobj.net/thumbs/160/apple/237/bust-in-silhouette_1f464.png"
-                })
+                .setTitle(`${EMOJI_CHARACTER} Character Information`)
                 .setDescription(
                     `Viewing **${userText}** character:`
                 )

@@ -31,11 +31,17 @@ export enum UuidFields {
     Dockets = "field_1182390"
 }
 
-export async function listRows(table: DbTable){
+export async function listRows(table: DbTable, filter: string = ""){
+
+    if (filter != ""){
+        filter = "&" + filter;
+    }
+
+
 
     let response = await axios({
         method: "GET",
-        url: `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true`,
+        url: `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true${filter}`,
         headers: HEADERS
     })
 

@@ -23,13 +23,6 @@ export default {
 
         // GET EMOJI ID TO USE
         let emoji = party.Emoji
-        let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
-        
-        let emojiUrl = undefined;
-
-        if(emojiId){
-            emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
-        }
 
         let partyBalance = (party.Balance | 0).toLocaleString("en-US");
         let caucusBalance = (party.CaucusBalance | 0).toLocaleString("en-US");
@@ -44,10 +37,7 @@ export default {
 
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `${party.Name} Information`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${emoji} ${party.Name} Information`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

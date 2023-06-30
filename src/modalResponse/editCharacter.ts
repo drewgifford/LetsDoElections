@@ -2,6 +2,7 @@ import { ActionRowBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
 import { TableUser } from "../models/Models";
 import { DbTable, UuidFields, createRow, getRow, updateRow } from "../db/database";
+import { EMOJI_SUCCESS } from "../util/statics";
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
     
@@ -39,10 +40,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     dbUser = await getRow(DbTable.Users, UuidFields.Users, interaction.user.id) as TableUser
 
     let embed = new EmbedBuilder()
-        .setAuthor({
-            name: "Updated Character",
-            iconURL: "https://em-content.zobj.net/thumbs/160/apple/237/bust-in-silhouette_1f464.png"
-        })
+        .setTitle(`${EMOJI_SUCCESS} Updated Character`)
         .setDescription(
             `<@${interaction.user.id}>, your character has been updated!`
         )

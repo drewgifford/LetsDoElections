@@ -1,6 +1,6 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows } from "../../../db/database";
-import { TableCaucus } from "../../../models/Models";
+import { TableCaucus, TableChamber } from "../../../models/Models";
 import { choice } from "../../../util/math";
 
 let tips = [
@@ -22,13 +22,10 @@ export default {
 
         // GET EMOJI ID TO USE
         let emoji = caucus.Emoji
-        let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
-        
-        let emojiUrl = undefined;
 
-        if(emojiId){
-            emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
-        }
+        if(!emoji){
+            emoji = ""
+        } else emoji = emoji + " "
 
         let caucusBalance = (caucus.Balance | 0).toLocaleString("en-US");
         let memberBalance = (caucus.UserBalance | 0).toLocaleString("en-US");
@@ -40,31 +37,40 @@ export default {
         let usersString = users.join(", ");
 
 
+        let seats = JSON.parse(caucus.Seats);
+
+        let seatsStrings: string[] = [];
+        let chambers = ((await listRows(DbTable.Chambers)) as TableChamber[]).forEach(chamber => {
+
+            if(chamber.Uuid in seats){
+                seatsStrings.push(`**${chamber.Emoji} ${chamber.Name}:** ${seats[chamber.Uuid]}`)
+            }
+
+
+        })
+
+        
+
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `${caucus.Name} Caucus Information`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${emoji}${caucus.Name} Caucus Information`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })
             .addFields(
             {
+                name: "Seats",
+                value: seatsStrings.join('\n') || "*N/A*",
+                inline: false
+            },
+            {
                 name: "Caucus Balance",
-                value: `
-                **👥 Caucus:** \`$${caucusBalance}\`
-                **👤 Members:** \`$${memberBalance}\`
-                `,
+                value: `**👥 Caucus:** \`$${caucusBalance}\`\n**👤 Members:** \`$${memberBalance}\``,
                 inline: true
             },
             {
                 name: "Race Spending",
-                value: `
-                **🏠 House:** \`$0\`
-                **🏛️ Senate:** \`$0\`
-                **🏢 President:** \`$0\`
-                `,
+                value: `**🏠 House:** \`$0\`\n**🏛️ Senate:** \`$0\`\n**🏢 President:** \`$0\``,
                 inline: true
             },
             {

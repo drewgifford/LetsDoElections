@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/da
 import { TableRace, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
 import { notifyError, notifyNoCharacter } from "../../../util/response";
+import { EMOJI_SUCCESS } from "../../../util/statics";
 var _ = require("lodash")
 
 let tips = [
@@ -58,15 +59,6 @@ export default {
             return await notifyError(interaction, "You do not have a district. Join a district using `/district join`.")
         }
 
-        // GET EMOJI ID TO USE
-        let emoji = race.Emoji
-        let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
-        
-        let emojiUrl = undefined;
-
-        if(emojiId){
-            emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
-        }
 
         let members = race.Users.length + 1; // this is 2
 
@@ -80,10 +72,7 @@ export default {
         }
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `Joined ${race.Name} Race!`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${EMOJI_SUCCESS} Joined ${race.Emoji} ${race.Name} Race!`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

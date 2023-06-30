@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/da
 import { TableCaucus, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
 import { notifyError, notifyNoCharacter } from "../../../util/response";
+import { EMOJI_SUCCESS } from "../../../util/statics";
 var _ = require("lodash")
 
 let tips = [
@@ -50,13 +51,10 @@ export default {
 
         // GET EMOJI ID TO USE
         let emoji = caucus.Emoji
-        let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
-        
-        let emojiUrl = undefined;
 
-        if(emojiId){
-            emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
-        }
+        if(!emoji){
+            emoji = ""
+        } else emoji = emoji + " "
 
         let members = caucus.Users.length + 1; // this is 2
 
@@ -70,10 +68,7 @@ export default {
         }
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `Joined ${caucus.Name} Caucus!`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${EMOJI_SUCCESS} Joined ${emoji}${caucus.Name} Caucus!`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

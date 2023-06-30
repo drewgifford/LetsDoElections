@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows } from "../../../db/database";
 import { TableState } from "../../../models/Models";
 import { choice } from "../../../util/math";
 import { notifyError } from "../../../util/response";
+import { EMOJI_STATE } from "../../../util/statics";
 
 let tips = [
     "View a list of states using /state list",
@@ -30,10 +31,7 @@ export default {
         let usersString = users.join(", ");
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `${state.Name} Information`,
-                iconURL: "https://flagcdn.com/40x30/us-" + state.Uuid.toLowerCase() + ".png"
-            })
+            .setTitle(`${EMOJI_STATE} ${state.Name} Information`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

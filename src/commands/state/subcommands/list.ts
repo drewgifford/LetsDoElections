@@ -2,6 +2,7 @@ import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputC
 import { DbTable, listRows } from "../../../db/database";
 import { TableState } from "../../../models/Models";
 import { choice } from "../../../util/math";
+import { EMOJI_STATE } from "../../../util/statics";
 
 let tips = [
     "Join a state using /state join",
@@ -21,10 +22,7 @@ export default {
         })
 
         var embed = new EmbedBuilder()
-            .setAuthor({
-                name: "List of States",
-                iconURL: "https://flagcdn.com/40x30/us.png"
-            })
+            .setTitle(`${EMOJI_STATE} List of States`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             });

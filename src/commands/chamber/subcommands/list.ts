@@ -2,6 +2,7 @@ import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputC
 import { DbTable, listRows } from "../../../db/database";
 import { TableChamber } from "../../../models/Models";
 import { choice } from "../../../util/math";
+import { EMOJI_CHAMBER } from "../../../util/statics";
 
 let tips = [
     "View detailed information about a chamber with /chamber info",
@@ -21,10 +22,7 @@ export default {
         })
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: "List of Chambers",
-                iconURL: "https://www.grassociation.org/images/HomePage/DC%20Callout.jpg"
-            })
+            .setTitle(`${EMOJI_CHAMBER} List of Chambers`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

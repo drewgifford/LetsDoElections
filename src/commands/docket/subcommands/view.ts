@@ -2,17 +2,9 @@ import { CommandInteraction, EmbedBuilder, User } from "discord.js";
 import { DbTable, UuidFields, getPage, getRow, listRows } from "../../../db/database";
 import Paginator from "../../../paginate/Paginator";
 import { TableBill, TableCaucus, TableDocket, TableParty } from "../../../models/Models";
+import { BILL_STATUS_EMOJIS, EMOJI_DOCKET } from "../../../util/statics";
 
-const BILL_STATUS_EMOJIS: any = {
-    "Not Introduced": "♨️",
-    "Passed First": "☝️",
-    "Passed Second": "✌️",
-    "Vetoed": "😠",
-    "Veto Overridden": "👿",
-    "Signed": "🖊️",
-    "Failed": "❌",
-    "Tabled": "🪑"
-}
+
 
 
 export default {
@@ -36,19 +28,27 @@ export default {
         let AUTHOR_FIELD = "field_1182362"
         let STATUS_FIELD = "field_1182411"
         
-        let filters = ["order_by=-Created"];
+        let filters = [];
         let filterStrs = ["__**Active Filters:**__"];
 
         let embedTitle = "All Dockets";
 
+        let titleEmoji = EMOJI_DOCKET
+
         if(docketId != "all" && docketId){
+            filters.push("order_by=-Edited")
+
             filters.push(`filter__${DOCKET_FIELD}__link_row_contains=${docketId}`);
 
             let docket = await getRow(DbTable.Dockets, UuidFields.Dockets, docketId) as TableDocket
 
+            titleEmoji = docket.Emoji;
             embedTitle = `${docket.Name} Docket`
 
+        } else {
+            filters.push("order_by=-Created");
         }
+
         if(status){
 
             filters.push(`filter__${STATUS_FIELD}__single_select_equal=${status}`);
@@ -104,20 +104,17 @@ export default {
 
             let desc = showDescription == true ? ("*" + item.Description + "*\n") : ""
 
-            console.log(item);
+            let editedDate = Date.parse(item.Edited);
 
             return {
                 name: `${itemEmoji}${item.Uuid} ${item.Name} - ${item.Cosponsors.length} cosponsors`,
-                value: `**Author:** <@${item.Author[0].value}>\n**Status:** ${BILL_STATUS_EMOJIS[item.Status.value]} ${item.Status.value}\n${desc}[Click to view bill](${item.Url})`
+                value: `**Author:** <@${item.Author[0].value}>\n**Status:** ${BILL_STATUS_EMOJIS[item.Status.value]} ${item.Status.value}\n**In docket since: ** <t:${Math.round(editedDate/1000)}:R>\n${desc}[Click to view bill](${item.Url})`
             };
 
         }
 
         let baseEmbed = new EmbedBuilder()
-            .setAuthor({
-                name: embedTitle,
-                url: "https://static.wikia.nocookie.net/the-microsoft-windows-xp/images/a/a4/Folder.png"
-            })
+            .setTitle(`${titleEmoji} ${embedTitle}`)
         
         if (filterStrs.length > 1){
             baseEmbed.setDescription(filterStrs.join('\n'));

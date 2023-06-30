@@ -3,6 +3,7 @@ import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/da
 import { TableRace, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
 import { notifyError, notifyNoCharacter } from "../../../util/response";
+import { EMOJI_SUCCESS } from "../../../util/statics";
 var _ = require("lodash")
 
 let tips = [
@@ -49,10 +50,7 @@ export default {
         }
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `Dropped out of ${race.Name} Race`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${EMOJI_SUCCESS} Dropped out of ${race.Emoji} ${race.Name} Race`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

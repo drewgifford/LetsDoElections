@@ -19,17 +19,6 @@ export default {
         
         let race = (await getRow(DbTable.Races, UuidFields.Races, raceId)) as TableRace;
 
-        
-
-        // GET EMOJI ID TO USE
-        let emoji = race.Emoji
-        let emojiId = /(?:.*?:){2}(.*).+/.exec(emoji);
-        
-        let emojiUrl = undefined;
-
-        if(emojiId){
-            emojiUrl = `https://cdn.discordapp.com/emojis/${emojiId[1]}.png`
-        }
 
         let users: string[] = [];
         race.Users.forEach((u) => {
@@ -40,10 +29,7 @@ export default {
 
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `${race.Name} Information`,
-                iconURL: emojiUrl
-            })
+            .setTitle(`${race.Emoji} ${race.Name} Information`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

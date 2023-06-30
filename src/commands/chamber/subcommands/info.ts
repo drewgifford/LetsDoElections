@@ -28,10 +28,7 @@ export default {
 
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: `${chamber.Name} Information`,
-                iconURL: "https://www.grassociation.org/images/HomePage/DC%20Callout.jpg"
-            })
+            .setTitle(`${chamber.Emoji} ${chamber.Name} Information`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })

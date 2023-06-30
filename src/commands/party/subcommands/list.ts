@@ -2,6 +2,7 @@ import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputC
 import { DbTable, listRows } from "../../../db/database";
 import { TableParty } from "../../../models/Models";
 import { choice } from "../../../util/math";
+import { EMOJI_PARTY } from "../../../util/statics";
 
 let tips = [
     "View detailed information about a party with /party info",
@@ -22,10 +23,7 @@ export default {
         })
 
         let embed = new EmbedBuilder()
-            .setAuthor({
-                name: "List of Active Parties",
-                iconURL: "https://cdn-icons-png.flaticon.com/512/2673/2673205.png"
-            })
+            .setTitle(`${EMOJI_PARTY} List of Parties`)
             .setFooter({
                 text: "🛈 Tip: " + choice(tips)
             })
