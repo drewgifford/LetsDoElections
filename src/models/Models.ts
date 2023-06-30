@@ -16,7 +16,9 @@ export interface TableUser extends TableRow {
     Party: any[],
     State: any[],
     Caucus: any[]
-    Race: any[]
+    Race: any[],
+    Bills: any[],
+    Chamber: any[]
 
     CampaignBalance: number,
     BankBalance: number,
@@ -43,8 +45,10 @@ export interface TableCaucus extends TableRow {
     Locked: boolean,
     Party: any[],
     Users: any[],
+    FundManagers: any[],
     Balance: number,
     UserBalance: number,
+    Dues: number,
 }
 
 export interface TableParty extends TableRow {
@@ -59,9 +63,11 @@ export interface TableParty extends TableRow {
     Locked: boolean,
     Users: any[],
     Caucuses: any[],
+    FundManagers: any[],
     Balance: number,
     CaucusBalance: number,
     UserBalance: number,
+    Dues: number,
 }
 
 export interface TableState extends TableRow {
@@ -71,6 +77,38 @@ export interface TableState extends TableRow {
     Locked: boolean,
     Users: any[]
 
+}
+
+export interface TableChamber extends TableRow {
+    Name: string,
+    Emoji: string,
+    Users: any[],
+    Npcs: string,
+    Docket: any[],
+    Members: number,
+    Description: string,
+}
+
+export interface TableDocket extends TableRow {
+    Name: string,
+    Emoji: string,
+    BillPrefix: string,
+    Bills: any[],
+    Managers: any[],
+    Locked: boolean,
+}
+
+export interface TableBill extends TableRow {
+    Name: string,
+    Url: string,
+    Author: any[],
+    Created: Date,
+    Chamber: any[],
+    Party: any[],
+    Caucus: any[],
+    Status: any,
+    Cosponsors: any[],
+    Description: string,
 }
 
 type CommandExecution = (interaction: CommandInteraction) => any

@@ -5,9 +5,8 @@ import { notifyNoCharacter, notifyOtherNoCharacter } from "../../../util/respons
 import { choice } from "../../../util/math";
 
 let tips = [
-    "Your campaign balance resets every cycle.",
-    "Pay another user with /pay.",
-    "Transfer funds from your bank to your campaign using /fund"
+    "Edit your character with /character edit",
+    "Your faceclaim doesn't have to be human! Go crazy. if you wish!"
 ]
 
 export default {

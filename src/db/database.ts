@@ -14,7 +14,10 @@ export enum DbTable {
     Parties = 176748,
     States = 176757,
     Caucuses = 176767,
-    Races = 176973
+    Races = 176973,
+    Bills = 177020,
+    Chambers = 177021,
+    Dockets = 177023,
 }
 
 export enum UuidFields {
@@ -22,7 +25,10 @@ export enum UuidFields {
     Parties = "field_1179626",
     States = "field_1179678",
     Caucuses = "field_1179714",
-    Races = "field_1181464"
+    Races = "field_1181464",
+    Bills = "field_1182357",
+    Chambers = "field_1182365",
+    Dockets = "field_1182390"
 }
 
 export async function listRows(table: DbTable){
@@ -40,6 +46,38 @@ export async function listRows(table: DbTable){
 
     // We did get some data back
     return response.data.results as TableRow[];
+}
+
+export async function getPage(table: DbTable, amountPerPage: number, filter: string = "", page: number = 1){
+
+    if (filter != ""){
+        filter = "&" + filter;
+    }
+
+    let response = await axios({
+        method: "GET",
+        url: `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true&size=${amountPerPage}&page=${page}${filter}`,
+        headers: HEADERS
+    })
+
+    if(!response || !("results" in response.data)){
+
+        return {
+            "count": 0,
+            "pages": 0,
+            "page": 1,
+            "results": [] as TableRow[]
+        };
+
+    }
+
+    return {
+        "count": response.data.count,
+        "pages": Math.ceil(response.data.count / amountPerPage),
+        "page": page,
+        "results": response.data.results
+    }
+
 }
 
 export async function getRow(table: DbTable, field: UuidFields, uuid: string){

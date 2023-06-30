@@ -1,0 +1,68 @@
+import { ActionRowBuilder } from "@discordjs/builders";
+import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
+import { TableCaucus, TableChamber, TableDocket, TableParty, TableUser } from "../models/Models";
+import { DbTable, UuidFields, createRow, getRow, updateRow } from "../db/database";
+import { notifyError, notifyNoCharacter } from "../util/response";
+
+export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
+    
+    let name: string = interaction.fields.getTextInputValue("name");
+    let url: string | null = interaction.fields.getTextInputValue("url");
+    let description: string | null = interaction.fields.getTextInputValue("description");
+
+    if(!dbUser) return;
+
+    let chamber = await getRow(DbTable.Chambers, UuidFields.Chambers, dbUser.Chamber[0].value) as TableChamber;
+    let party = await getRow(DbTable.Parties, UuidFields.Parties, dbUser.Party[0].value) as TableParty;
+    let caucus = await getRow(DbTable.Caucuses, UuidFields.Caucuses, dbUser.Caucus[0].value) as TableCaucus;
+    let docket = await getRow(DbTable.Dockets, UuidFields.Dockets, chamber.Docket[0].value) as TableDocket;
+
+    let billId = `${docket.BillPrefix}-${docket.Bills.length + 1}`;
+
+    let data = {
+        "Uuid": billId,
+        "Name": name,
+        "Url": url,
+        "Author": [ dbUser.id ],
+        "Docket": [ docket.id ],
+        "Party": [ party.id ],
+        "Caucus": [ caucus.id ],
+        "Description": description,
+        "Status": "Not Introduced",
+        "Cosponsors": [],
+    }
+
+    let emoji = (caucus.Emoji ? caucus.Emoji : party.Emoji);
+
+    
+
+    let embed = new EmbedBuilder()
+        .setAuthor({
+            name: "Submitted Bill",
+            iconURL: "https://pbs.twimg.com/profile_images/642070518183555073/zNi9uqQy_400x400.jpg"
+        })
+        .setDescription(
+            `${emoji} \`${billId}\` **${name}** has been placed in the ${docket.Name} docket.`
+        )
+
+        .setFooter({
+            text: "🛈 Tip: To view all bills in a docket, use /docket view"
+        }
+    )
+
+    try {
+        embed.setURL(url)
+    } catch (e){
+
+        return await notifyError(interaction, "The Bill URL you provided is invalid.");
+
+    }
+
+    let response = await createRow(DbTable.Bills, data);
+
+    if(!response){
+        return await interaction.reply("An error occurred");
+    }
+
+    interaction.reply({embeds: [embed]});
+}
