@@ -4,6 +4,8 @@ import { TableBill, TableCaucus, TableDocket, TableParty, TableUser } from "../.
 import { notifyError, notifyNoCharacter } from "../../../util/response";
 import { BILL_STATUS_EMOJIS, EMOJI_SUCCESS } from "../../../util/statics";
 import { choice, nth } from "../../../util/math";
+import addToDocket from "../../../util/addToDocket";
+import DiscordClient from "../../../client";
 
 let tips = [
     "View information about a bill with /bill info",
@@ -42,6 +44,8 @@ export default {
         let newDocket = interaction.options.get("docket", false)?.value as string | null;
 
 
+        let history = bill.History;
+
         let data: any = {};
         let editStrs = [];
 
@@ -56,6 +60,7 @@ export default {
             let newDocketDb = (await getRow(DbTable.Dockets, UuidFields.Dockets, newDocket)) as TableDocket;
 
             data["Docket"] = [newDocket];
+            data["History"] = `${history},${newDocketDb.Uuid}`;
             //data["Created"] = Date.now();
             editStrs.push(`**Docket:** ~~${docket.Emoji} ${docket.Name}~~ → ${newDocketDb.Emoji} ${newDocketDb.Name}`);
 
@@ -73,6 +78,17 @@ export default {
             .setDescription(`${bill.Uuid} ${bill.Name} has been updated.\n` + editStrs.join('\n'))
 
         await interaction.reply({embeds: [embed]});
+
+        
+
+        if(newDocket){
+            let newBill = (await getRow(DbTable.Bills, UuidFields.Bills, bill.Uuid)) as TableBill;
+            let newDocketDb = (await getRow(DbTable.Dockets, UuidFields.Dockets, newDocket)) as TableDocket;
+
+            await addToDocket(interaction.client as DiscordClient, newBill, newDocketDb);
+        }
+
+        
 
 
 

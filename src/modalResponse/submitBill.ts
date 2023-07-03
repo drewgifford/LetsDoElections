@@ -1,9 +1,11 @@
 import { ActionRowBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
-import { TableCaucus, TableChamber, TableDocket, TableParty, TableUser } from "../models/Models";
+import { TableBill, TableCaucus, TableChamber, TableDocket, TableParty, TableUser } from "../models/Models";
 import { DbTable, UuidFields, createRow, getRow, updateRow } from "../db/database";
 import { notifyError, notifyNoCharacter } from "../util/response";
 import { EMOJI_SUCCESS } from "../util/statics";
+import DiscordClient from "../client";
+import addToDocket from "../util/addToDocket";
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
     
@@ -31,6 +33,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         "Description": description,
         "Status": "Not Introduced",
         "Cosponsors": [],
+        "History": docket.id
     }
 
     let emoji = (caucus.Emoji ? caucus.Emoji : party.Emoji);
@@ -63,4 +66,8 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     }
 
     interaction.reply({embeds: [embed]});
+
+    let newBill = (await getRow(DbTable.Bills, UuidFields.Bills, billId)) as TableBill;
+
+    await addToDocket(interaction.client as DiscordClient, newBill, docket);
 }

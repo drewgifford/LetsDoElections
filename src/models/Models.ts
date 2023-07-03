@@ -106,6 +106,7 @@ export interface TableDocket extends TableRow {
     Bills: any[],
     Managers: any[],
     Locked: boolean,
+    Channel: string,
 }
 
 export interface TableBill extends TableRow {
@@ -121,6 +122,7 @@ export interface TableBill extends TableRow {
     Status: any,
     Cosponsors: any[],
     Description: string,
+    History: string,
 }
 
 export interface TableEvent extends TableRow {
