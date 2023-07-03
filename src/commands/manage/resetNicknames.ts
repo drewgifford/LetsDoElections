@@ -31,9 +31,11 @@ export default {
         if(!guild) return;
 
         guild.members.cache.forEach(g => {
-            try {
-                g.setNickname(null);
-            } catch(e) {} 
+            g.setNickname("").then(member => {
+                console.log("[OK] Reset", g.displayName + "'s", "nickname.");
+            }).catch(e => {
+                console.log("[WARN] Couldn't reset", g.displayName + "'s", "nickname.");
+            });
         });
 
 
