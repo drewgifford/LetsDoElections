@@ -65,11 +65,10 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         return await interaction.editReply("An error occurred");
     }
 
-    
+    await interaction.editReply({embeds: [embed]});
 
     let newBill = (await getRow(DbTable.Bills, UuidFields.Bills, billId)) as TableBill;
 
     await addToDocket(interaction.client as DiscordClient, newBill, docket);
 
-    await interaction.editReply({embeds: [embed]});
 }
