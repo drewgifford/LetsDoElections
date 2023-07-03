@@ -77,7 +77,7 @@ export default {
             .setTitle(`${EMOJI_SUCCESS} Edited Bill`)
             .setDescription(`${bill.Uuid} ${bill.Name} has been updated.\n` + editStrs.join('\n'))
 
-        await interaction.reply({embeds: [embed]});
+        
 
         
 
@@ -88,7 +88,7 @@ export default {
             await addToDocket(interaction.client as DiscordClient, newBill, newDocketDb);
         }
 
-        
+        await interaction.reply({embeds: [embed]});
 
 
 
