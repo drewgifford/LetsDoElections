@@ -30,13 +30,18 @@ export default {
 
         if(!guild) return;
 
+        let count = 0;
+
         guild.members.cache.forEach(g => {
             g.setNickname("").then(member => {
                 console.log("[OK] Reset", g.displayName + "'s", "nickname.");
+                count++;
             }).catch(e => {
                 console.log("[WARN] Couldn't reset", g.displayName + "'s", "nickname.");
             });
         });
+
+        await interaction.reply("Reset " + count + " users' nicknames");
 
 
     }
