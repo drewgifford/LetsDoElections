@@ -16,7 +16,7 @@ export default async function addToDocket(client: DiscordClient, bill: TableBill
     let embed = new EmbedBuilder()
 
         .setTitle(`${bill.Uuid} ${bill.Name}`)
-        .setDescription(`**Author:** <@${bill.Author[0].value}>`)
+        .setDescription(`**Author:** <@${bill.Author[0].value}>\n${bill.Description}`)
         .addFields(
             {
                 name: "Status",
@@ -24,11 +24,13 @@ export default async function addToDocket(client: DiscordClient, bill: TableBill
             },
             {
                 name: "Last Updated",
-                value: `<t:${Math.round(Date.parse(bill.Edited)/1000)}:R>`
+                value: `<t:${Math.round(Date.parse(bill.Edited)/1000)}:R>`,
+                inline: true,
             },
             {
                 name: "First Introduced",
-                value: `<t:${Math.round(Date.parse(bill.Created)/1000)}>`
+                value: `<t:${Math.round(Date.parse(bill.Created)/1000)}>`,
+                inline: true,
             },
             {
                 name: "Bill History",
