@@ -31,7 +31,9 @@ export default {
         if(!guild) return;
 
         guild.members.cache.forEach(g => {
-            g.setNickname(null);
+            try {
+                g.setNickname(null);
+            } catch(e) {}
         });
 
 
