@@ -30,6 +30,8 @@ export default {
 
         let guild = interaction.guild;
 
+        return await notifyError(interaction, "This command is deprecated.");
+
         if(!guild) return;
 
         let parties = (await listRows(DbTable.Parties)) as TableParty[];
