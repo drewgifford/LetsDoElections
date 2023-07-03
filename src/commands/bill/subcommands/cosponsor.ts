@@ -34,7 +34,7 @@ export default {
         }
 
         let cosponsors = bill.Cosponsors;
-        let mappedCosponsors = bill.Cosponsors.map(c => c.Uuid);
+        let mappedCosponsors = bill.Cosponsors.map(c => c.value);
 
         if (user.Uuid in mappedCosponsors){
             return await notifyError(interaction, "You have already cosponsored this bill.");
