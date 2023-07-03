@@ -50,7 +50,7 @@ export default {
             }
             if (dbUser.Caucus.length > 0){
                 let caucus = await getRow(DbTable.Caucuses, UuidFields.Caucuses, dbUser.Caucus[0].value) as TableCaucus;
-                partyString = `${caucus.Emoji} ${caucus.Name}`;
+                caucusString = `${caucus.Emoji} ${caucus.Name}`;
                 embed.setColor(caucus.Color as ColorResolvable);
             }
             
