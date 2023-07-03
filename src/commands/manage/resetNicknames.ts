@@ -31,6 +31,7 @@ export default {
         let guild = interaction.guild;
 
         return await notifyError(interaction, "This command is deprecated.");
+        /*
 
         if(!guild) return;
 
@@ -70,12 +71,6 @@ export default {
 
 
             members.forEach(g => {
-                /*g.setNickname("").then(member => {
-                    console.log("[OK] Reset", g.displayName + "'s", "nickname.");
-                    count++;
-                }).catch(e => {
-                    console.log("[WARN] Couldn't reset", g.displayName + "'s", "nickname.");
-                });*/
                 g.roles.remove(ROLES).then((a) => {
                     console.log("[OK] Reset", g.displayName + "'s", "roles.");
                     count++;
@@ -87,6 +82,7 @@ export default {
         }).then(() => {
             interaction.followUp("Done! I reset " + count + " people.");
         })
+        */
         
 
 
