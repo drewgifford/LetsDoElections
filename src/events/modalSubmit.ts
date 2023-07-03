@@ -17,6 +17,10 @@ export default {
 
         if(!interaction.isModalSubmit()) return;
 
+        if(!interaction.deferred){
+            console.log("DEFERRED");
+            await interaction.deferUpdate();
+        }
         let modalId = interaction.customId;
         // Get modal type
 
