@@ -26,9 +26,7 @@ export default {
                 { name: "D - Blue Dog", value: "d-bluedog" },
                 { name: "D - New Democrats", value: "d-newdem" },
                 { name: "D - Progressive", value: "d-progressive" },
-                { name: "I - Right-Wing", value: "i-right" },
-                { name: "I - Centrist", value: "i-center"},
-                { name: "I - Left-Wing", value: "i-left"},
+                { name: "I - Generic", value: "i-generic" },
                 { name: "LC - Generic", value: "lc-generic"},
                 { name: "CDU - Generic", value: "cdu-generic"},
             )
