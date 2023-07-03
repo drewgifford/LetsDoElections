@@ -274,7 +274,7 @@ export async function processUpdate(client: DiscordClient, body: WebhookBody){
         }
 
         try {
-            await user.setNickname(`${newEntry.Nickname.substring(0, 32-suffix.length)} ${suffix}`)
+            await user.setNickname(`${newEntry.Nickname.substring(0, 31-suffix.length)} ${suffix}`)
         } catch(e){}
 
 
