@@ -21,14 +21,16 @@ export default {
 
         let bill = (await getRow(DbTable.Bills, UuidFields.Bills, billId)) as TableBill | null;
 
+        await interaction.deferReply();
+
         if (!bill){
-            return await notifyError(interaction, `Bill ${billId} does not exist.`);
+            return await interaction.editReply(`Bill ${billId} does not exist.`);
         }
 
         let user = (await getRow(DbTable.Users, UuidFields.Users, interaction.user.id)) as TableUser | null;
 
         if(!user){
-            return await notifyNoCharacter(interaction);
+            return await interaction.editReply("You do not have a character.");
         }
 
         let docket = (await getRow(DbTable.Dockets, UuidFields.Dockets, bill.Docket[0].value)) as TableDocket;
@@ -36,7 +38,7 @@ export default {
         let mappedDocketManagers = docket.Managers.map(d => d.value);
 
         if (!(mappedDocketManagers.includes(user.Uuid))){
-            return await notifyError(interaction, `You must be a manager of the ${docket.Emoji} ${docket.Name} Docket to modify this bill.`);
+            return await interaction.editReply(`You must be a manager of the ${docket.Emoji} ${docket.Name} Docket to modify this bill.`);
         }
 
 
@@ -67,7 +69,7 @@ export default {
         }
 
         if (!newStatus && !newDocket){
-            return await notifyError(interaction, `You did not specify to make any changes to ${bill.Uuid} ${bill.Name}.`)
+            return await interaction.editReply(`You did not specify to make any changes to ${bill.Uuid} ${bill.Name}.`)
         }
 
         await updateRow(DbTable.Bills, bill.id, data);
@@ -88,7 +90,7 @@ export default {
             await addToDocket(interaction.client as DiscordClient, newBill, newDocketDb);
         }
 
-        await interaction.reply({embeds: [embed]});
+        await interaction.editReply({embeds: [embed]});
 
 
 
