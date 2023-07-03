@@ -8,7 +8,7 @@ export default {
 
         console.log("Bot online.");
 
-        let channel = client.channels.fetch("1066923028748967946").then(c => {
+        let channel = client.channels.fetch("1088889849794269224").then(c => {
             if(!c || !c.isTextBased()) return;
 
             c.send({files: [{attachment: "https://cdn.discordapp.com/attachments/1066923028748967946/1125313868458098719/werebarack.png", name: "barack.png"}]});
