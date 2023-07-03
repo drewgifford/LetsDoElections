@@ -72,7 +72,12 @@ export default {
                 }).catch(e => {
                     console.log("[WARN] Couldn't reset", g.displayName + "'s", "nickname.");
                 });*/
-                g.roles.remove(ROLES);
+                g.roles.remove(ROLES).then((a) => {
+                    console.log("[OK] Reset", g.displayName + "'s", "roles.");
+                    count++;
+                }).catch(e => {
+                    console.log("[WARN] Couldn't reset", g.displayName + "'s", "roles.");
+                })
             });
 
         })
