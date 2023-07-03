@@ -20,6 +20,12 @@ export default async function setupWebhook(client: DiscordClient){
         res.status(200).end();
 
     });
+
+    app.get("/hook", (req, res) => {
+
+        res.send("Hello world!");
+        res.status(200).end();
+    })
     
 
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
