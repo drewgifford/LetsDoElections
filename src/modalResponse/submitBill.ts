@@ -13,6 +13,8 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     let url: string | null = interaction.fields.getTextInputValue("url");
     let description: string | null = interaction.fields.getTextInputValue("description");
 
+    await interaction.deferReply();
+
     if(!dbUser) return;
 
     let chamber = await getRow(DbTable.Chambers, UuidFields.Chambers, dbUser.Chamber[0].value) as TableChamber;
