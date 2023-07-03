@@ -1,7 +1,7 @@
 import { ActionRowBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
 import { TableBill, TableCaucus, TableChamber, TableDocket, TableParty, TableUser } from "../models/Models";
-import { DbTable, UuidFields, createRow, getRow, updateRow } from "../db/database";
+import { DbTable, UuidFields, createRow, getRow, listRows, updateRow } from "../db/database";
 import { notifyError, notifyNoCharacter } from "../util/response";
 import { EMOJI_SUCCESS } from "../util/statics";
 import DiscordClient from "../client";
@@ -20,7 +20,9 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     let caucus = await getRow(DbTable.Caucuses, UuidFields.Caucuses, dbUser.Caucus[0].value) as TableCaucus;
     let docket = await getRow(DbTable.Dockets, UuidFields.Dockets, chamber.Docket[0].value) as TableDocket;
 
-    let billId = `${docket.BillPrefix}-${docket.Bills.length + 1}`;
+    let bills = (await listRows(DbTable.Bills, `filter__field_1186253__link_row_contains=${chamber.Uuid}`)).length;
+
+    let billId = `${docket.BillPrefix}-${bills + 1}`;
 
     let data = {
         "Uuid": billId,
