@@ -1,8 +1,8 @@
-import { EmbedBuilder } from "@discordjs/builders";
 import DiscordClient from "../client";
-import { TableBill, TableDocket, TableUser } from "../models/Models";
+import { TableBill, TableCaucus, TableDocket, TableUser } from "../models/Models";
 import { BILL_STATUS_EMOJIS } from "./statics";
 import { DbTable, UuidFields, getRow } from "../db/database";
+import { ColorResolvable, EmbedBuilder } from "discord.js";
 
 export default async function addToDocket(client: DiscordClient, bill: TableBill, docket: TableDocket){
     
@@ -13,15 +13,16 @@ export default async function addToDocket(client: DiscordClient, bill: TableBill
     if(!channel || !channel.isTextBased()) return;
 
     let user = (await getRow(DbTable.Users, UuidFields.Users, bill.Author[0].value)) as TableUser;
-
+    let caucus = (await getRow(DbTable.Caucuses, UuidFields.Caucuses, bill.Caucus[0].value)) as TableCaucus;
     
 
     let history = bill.History.split(",").map(b => `\`${b}\``);
+    let color = caucus.Color as ColorResolvable;
 
     let embed = new EmbedBuilder()
 
-        .setTitle(`${bill.Uuid} ${bill.Name}`)
-        .setDescription(`**Author:** <@${bill.Author[0].value}>\n${bill.Description}`)
+        .setTitle(`${caucus.Emoji} ${bill.Uuid} ${bill.Name}`)
+        .setDescription(`**Author:** ${caucus.Emoji} <@${bill.Author[0].value}>\n${bill.Description}`)
         .addFields(
             {
                 name: "Status",
@@ -42,7 +43,7 @@ export default async function addToDocket(client: DiscordClient, bill: TableBill
                 value: `${history.join(' → ')}`
             }
         )
-        .setColor(0xE6771F)
+        .setColor(color)
 
         try {
             embed.setURL(bill.Url)
