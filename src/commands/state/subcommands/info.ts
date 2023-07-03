@@ -37,7 +37,7 @@ export default {
             })
             .addFields(
             {
-                name: `Running - ${state.Users.length}`,
+                name: `Residents - ${state.Users.length}`,
                 value: `${usersString || "*Nobody is in this state. You could be the first!*"}`
             }
             

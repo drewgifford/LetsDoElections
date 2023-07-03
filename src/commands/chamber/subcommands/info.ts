@@ -38,7 +38,11 @@ export default {
             },
             {
                 name: `Members - ${chamber.Members}`,
-                value: `${usersString || "*Nobody is in this chamber. You could be the first!*"}\n\n*${chamber.Description}*`
+                value: `${usersString || "*Nobody is in this chamber. You could be the first!*"}`
+            },
+            {
+                name: "Description",
+                value: chamber.Description || "*No description*"
             }
             
             )

@@ -71,7 +71,7 @@ export default {
 
             return {
                 name: `${itemTitle}`,
-                value: `**User:** <@${itemUser}>\n**States: \`${itemStates.join(',')}\`**\n**Type:** ${itemType}\n**Sent:** <t:${Math.round(itemCreated/1000)}>\n\n${item.Description}\n[Link to campaign message](${item.MessageUrl})`
+                value: `**User:** <@${itemUser}>\n**States: \`${itemStates.join(',')}\`**\n**Type:** ${itemType}\n**Sent:** <t:${Math.round(itemCreated/1000)}>\n\n${item.Description.substring(0, 800)}\n[Link to campaign message](${item.MessageUrl})`
             };
 
         }

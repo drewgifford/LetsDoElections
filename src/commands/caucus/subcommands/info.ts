@@ -79,7 +79,11 @@ export default {
             },
             {
                 name: `Members - ${caucus.Members}`,
-                value: `${usersString || "*Nobody is in this caucus. You could be the first!*"}\n\n*${caucus.Description}*`
+                value: `${usersString || "*Nobody is in this caucus. You could be the first!*"}`
+            },
+            {
+                name: "Description",
+                value: caucus.Description || "*No description*"
             }
             
             )

@@ -36,7 +36,11 @@ export default {
             .addFields(
             {
                 name: `Members - ${race.Members}`,
-                value: `${usersString || "*Nobody is in this race. You could be the first!*"}\n\n*${race.Description}*`
+                value: `${usersString || "*Nobody is in this race. You could be the first!*"}`
+            },
+            {
+                name: "Description",
+                value: race.Description || "*No description*"
             }
             
             )
