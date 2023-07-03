@@ -1,7 +1,8 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import DiscordClient from "../client";
-import { TableBill, TableDocket } from "../models/Models";
+import { TableBill, TableDocket, TableUser } from "../models/Models";
 import { BILL_STATUS_EMOJIS } from "./statics";
+import { DbTable, UuidFields, getRow } from "../db/database";
 
 export default async function addToDocket(client: DiscordClient, bill: TableBill, docket: TableDocket){
     
@@ -10,6 +11,10 @@ export default async function addToDocket(client: DiscordClient, bill: TableBill
     let channel = await client.channels.fetch(channelId);
 
     if(!channel || !channel.isTextBased()) return;
+
+    let user = (await getRow(DbTable.Users, UuidFields.Users, bill.Author[0].value)) as TableUser;
+
+    
 
     let history = bill.History.split(",").map(b => `\`${b}\``);
 
@@ -43,7 +48,11 @@ export default async function addToDocket(client: DiscordClient, bill: TableBill
             embed.setURL(bill.Url)
         } catch(e) {};
 
-        
+    if (user.Faceclaim){
+        try {
+            embed.setThumbnail(user.Faceclaim);
+        } catch(e){}
+    }
 
     await channel.send({embeds: [embed]});
 
