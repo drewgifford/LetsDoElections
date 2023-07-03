@@ -60,10 +60,12 @@ export default {
                 ROLES.push(race.Role);
             }
         }
+        let count = 0;
+
+        await interaction.reply("Resetting all roles...");
 
         guild.members.fetch().then((members) => {
 
-            let count = 0;
 
             members.forEach(g => {
                 /*g.setNickname("").then(member => {
@@ -80,8 +82,9 @@ export default {
                 })
             });
 
+        }).then(() => {
+            interaction.followUp("Done! I reset " + count + " people.");
         })
-
         
 
 
