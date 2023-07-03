@@ -33,7 +33,7 @@ export default {
         guild.members.cache.forEach(g => {
             try {
                 g.setNickname(null);
-            } catch(e) {}
+            } catch(e) {} 
         });
 
 
