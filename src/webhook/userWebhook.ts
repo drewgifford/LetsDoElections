@@ -1,7 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
 import DiscordClient from "../client";
-import { TableCaucus, TableParty, TableUser } from "../models/Models";
+import { TableCaucus, TableChamber, TableParty, TableRace, TableUser } from "../models/Models";
 import { DbTable, UuidFields, getRow, listRows } from "../db/database";
 var _ = require("lodash");
 
@@ -41,7 +41,9 @@ export type WebhookBody = {
 }
 
 let PARTY_ROLES: string[] = [];
-let CAUCUS_ROLES: string[] = []
+let CAUCUS_ROLES: string[] = [];
+let RACE_ROLES: string[] = [];
+let CHAMBER_ROLES: string[] = [];
 
 export async function cacheRoles(client: DiscordClient){
 
@@ -50,6 +52,8 @@ export async function cacheRoles(client: DiscordClient){
 
     let parties = (await listRows(DbTable.Parties)) as TableParty[];
     let caucuses = (await listRows(DbTable.Caucuses)) as TableCaucus[];
+    let races = (await listRows(DbTable.Races)) as TableRace[];
+    let chambers = (await listRows(DbTable.Chambers)) as TableChamber[];
 
     for(var party of parties){
         if (party.Role){
@@ -60,6 +64,18 @@ export async function cacheRoles(client: DiscordClient){
     for(var caucus of caucuses){
         if (caucus.Role){
             CAUCUS_ROLES.push(caucus.Role);
+        }
+    }
+
+    for(var chamber of chambers){
+        if (chamber.Role){
+            CHAMBER_ROLES.push(chamber.Role);
+        }
+    }
+
+    for(var race of races){
+        if (race.Role){
+            RACE_ROLES.push(race.Role);
         }
     }
 
@@ -114,6 +130,8 @@ export async function processUpdate(client: DiscordClient, body: WebhookBody){
     let caucusChanged = checkEntry("Caucus");
     let districtChanged = checkEntry("District");
     let stateChanged = checkEntry("State");
+    let raceChanged = checkEntry("Race");
+    let chamberChanged = checkEntry("Chamber");
 
     // Check if any of these are different
 
@@ -138,6 +156,56 @@ export async function processUpdate(client: DiscordClient, body: WebhookBody){
         if(caucus){
             try {
                 await user.roles.add(caucus.Role);
+            } catch(e) {}
+        }
+    }
+
+    if (chamberChanged){
+        // Update chamber role
+
+        let chamberId = newEntry.Chamber.length > 0 ? newEntry.Chamber[0].value : null;
+
+        let chamber = null;
+
+        if(chamberId){
+            chamber = (await getRow(DbTable.Chambers, UuidFields.Chambers, newEntry.Chamber[0].value)) as TableChamber | null;
+        }
+
+        // Remove all their caucus roles before giving them a new one
+
+        try {
+            await user.roles.remove(CHAMBER_ROLES);
+        } catch(e) {}
+
+        // Add back their new caucus role
+        if(chamber){
+            try {
+                await user.roles.add(chamber.Role);
+            } catch(e) {}
+        }
+    }
+
+    if (raceChanged){
+        // Update race role
+
+        let raceId = newEntry.Race.length > 0 ? newEntry.Race[0].value : null;
+
+        let race = null;
+
+        if(raceId){
+            race = (await getRow(DbTable.Races, UuidFields.Races, newEntry.Race[0].value)) as TableRace | null;
+        }
+
+        // Remove all their caucus roles before giving them a new one
+
+        try {
+            await user.roles.remove(RACE_ROLES);
+        } catch(e) {}
+
+        // Add back their new caucus role
+        if(race){
+            try {
+                await user.roles.add(race.Role);
             } catch(e) {}
         }
     }

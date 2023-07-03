@@ -95,7 +95,8 @@ export interface TableChamber extends TableRow {
     Docket: any[],
     Members: number,
     Description: string,
-    Managers: any[]
+    Managers: any[],
+    Role: string,
 }
 
 export interface TableDocket extends TableRow {
