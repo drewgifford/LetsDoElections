@@ -59,6 +59,18 @@ export default {
             return await notifyError(interaction, "You do not have a district. Join a district using `/district join`.")
         }
 
+        let states = race.States;
+
+        if (states.length != 0){
+
+            let state = userDb.State[0].value;
+
+            if(!states.map(s => s.value).includes(state)){
+                return await notifyError(interaction, `The seat represented by ${state} is not up this election.`)
+            }
+
+        }
+
 
         let members = race.Users.length + 1; // this is 2
 
