@@ -33,7 +33,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         "Description": description,
         "Status": "Not Introduced",
         "Cosponsors": [],
-        "History": docket.id
+        "History": docket.Uuid
     }
 
     let emoji = (caucus.Emoji ? caucus.Emoji : party.Emoji);
