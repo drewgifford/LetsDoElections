@@ -18,6 +18,7 @@ export enum DbTable {
     Bills = 177020,
     Chambers = 177021,
     Dockets = 177023,
+    Events = 177545
 }
 
 export enum UuidFields {
@@ -28,7 +29,8 @@ export enum UuidFields {
     Races = "field_1181464",
     Bills = "field_1182357",
     Chambers = "field_1182365",
-    Dockets = "field_1182390"
+    Dockets = "field_1182390",
+    Events = "field_1186125"
 }
 
 export async function listRows(table: DbTable, filter: string = ""){

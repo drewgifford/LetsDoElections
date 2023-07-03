@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
+import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ColorResolvable } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/database";
 import { TableCaucus, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
@@ -73,6 +73,7 @@ export default {
                 text: "🛈 Tip: " + choice(tips)
             })
             .setDescription(`You have successfully joined a caucus! You are the **${nth(members)}** member.`)
+            .setColor(caucus.Color as ColorResolvable);
 
 
 

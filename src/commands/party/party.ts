@@ -4,6 +4,8 @@ import { notifyError } from "../../util/response";
 const infoCommand = require("./subcommands/info");
 const joinCommand = require("./subcommands/join");
 const listCommand = require("./subcommands/list");
+const addwhipCommand = require("./subcommands/addwhip");
+const removewhipCommand = require("./subcommands/removewhip");
 
 export default {
 
@@ -48,7 +50,42 @@ export default {
             subcommand
                 .setName("list")
                 .setDescription("Lists all active parties")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("addwhip")
+            .setDescription("ADMIN ONLY - Adds a whip to a party")
+            .addStringOption(option =>
+                option.addChoices(
+                    { name: "Democratic", value: "D" },
+                    { name: "Liberty Coalition", value: "L" },
+                    { name: "Christian Democratic Union", value: "C" },
+                    { name: "Independent", value: "I" }
+                )
+                .setName("party")
+                .setDescription("Party to modify")
+                .setRequired(true)
+            )
+            .addUserOption(option => option.setName('user').setDescription('User to manage').setRequired(true))
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("removewhip")
+            .setDescription("ADMIN ONLY - Removes a whip from a party")
+            .addStringOption(option =>
+                option.addChoices(
+                    { name: "Democratic", value: "D" },
+                    { name: "Liberty Coalition", value: "L" },
+                    { name: "Christian Democratic Union", value: "C" },
+                    { name: "Independent", value: "I" }
+                )
+                .setName("party")
+                .setDescription("Party to modify")
+                .setRequired(true)
+            )
+            .addUserOption(option => option.setName('user').setDescription('User to manage').setRequired(true))
         ),
+
         
     execute: async function(interaction: ChatInputCommandInteraction){
 
@@ -61,6 +98,11 @@ export default {
                 return await listCommand.default.execute(interaction);
             case "info":
                 return await infoCommand.default.execute(interaction);
+            case "addwhip":
+                return await addwhipCommand.default.execute(interaction);
+            case "removewhip":
+                return await removewhipCommand.default.execute(interaction);
+            
             default:
                 return await notifyError(interaction, "Unknown error. Code 42");
 

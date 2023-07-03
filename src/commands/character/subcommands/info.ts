@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
+import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ColorResolvable } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows } from "../../../db/database";
 import { TableCaucus, TableParty, TableUser } from "../../../models/Models";
 import { notifyNoCharacter, notifyOtherNoCharacter } from "../../../util/response";
@@ -42,6 +42,8 @@ export default {
             let partyString = "None";
             let caucusString = "None";
 
+            let embed = new EmbedBuilder();
+
             if (dbUser.Party.length > 0){
                 let party = await getRow(DbTable.Parties, UuidFields.Parties, dbUser.Party[0].value) as TableParty;
                 partyString = `${party.Emoji} ${party.Name}`;
@@ -49,6 +51,7 @@ export default {
             if (dbUser.Caucus.length > 0){
                 let caucus = await getRow(DbTable.Caucuses, UuidFields.Caucuses, dbUser.Caucus[0].value) as TableCaucus;
                 partyString = `${caucus.Emoji} ${caucus.Name}`;
+                embed.setColor(caucus.Color as ColorResolvable);
             }
             
 
@@ -58,7 +61,7 @@ export default {
             console.log(dbUser)
 
             // Respond with Embed
-            let embed = new EmbedBuilder()
+            embed
                 .setTitle(`${EMOJI_CHARACTER} Character Information`)
                 .setDescription(
                     `Viewing **${userText}** character:`
@@ -68,18 +71,18 @@ export default {
                 {
                     name: "Information",
                     value: `📛 **Name:** ${dbUser.Nickname}\n🗺️ **Location:** ${location}`,
-                    inline: false
+                    inline: true
                 },
                 {
                     name: "Membership",
                     value: `**Party:** ${partyString}\n**Caucus:** ${caucusString}`,
                     inline: true
                 },
-                {
+                /*{
                     name: "Finances",
                     value: `💰 **Bank**: \`$${bankBalance}\`\n💸 **Campaign**: \`$${campaignBalance}\``,
                     inline: true
-                },
+                },*/
                 {
                     name: "Description",
                     value: `${dbUser.Description || "*No description set*"}`
@@ -92,6 +95,7 @@ export default {
                 .setFooter({
                     text: "🛈 Tip: " + choice(tips)
                 })
+                
 
             if (dbUser.Faceclaim){
                 embed.setThumbnail(dbUser.Faceclaim);

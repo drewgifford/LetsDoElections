@@ -19,8 +19,8 @@ export default {
             console.log("Executing command...");
             await command.execute(interaction);
         } catch (error){
-            console.error(error);
-            interaction.reply({ content: "An error occurred", ephemeral: true });
+            console.log(error);
+            interaction.reply({ content: `An error occurred\n${error}`, ephemeral: true });
         }
 
     }

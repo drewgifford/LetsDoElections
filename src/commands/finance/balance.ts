@@ -1,7 +1,7 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows } from "../../db/database";
 import { TableUser } from "../../models/Models";
-import { notifyNoCharacter, notifyOtherNoCharacter } from "../../util/response";
+import { notifyError, notifyNoCharacter, notifyOtherNoCharacter } from "../../util/response";
 import { choice } from "../../util/math";
 import { EMOJI_FINANCE } from "../../util/statics";
 
@@ -27,7 +27,9 @@ export default {
 
     async execute(interaction: CommandInteraction) { 
 
-        let user: User = interaction.options.getUser("user", false) || interaction.user;
+        return await notifyError(interaction, "This command is deprecated.");
+
+        /*let user: User = interaction.options.getUser("user", false) || interaction.user;
 
         let userText = `<@${user.id}>'s`;
 
@@ -68,7 +70,7 @@ export default {
             }
 
         }
-        
+        */
 
 
     }

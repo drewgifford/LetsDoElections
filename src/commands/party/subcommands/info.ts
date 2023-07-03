@@ -42,7 +42,7 @@ export default {
                 text: "🛈 Tip: " + choice(tips)
             })
             .addFields(
-            {
+            /*{
                 name: "Party Balance",
                 value: `
                 **🎉 Party:** \`$${partyBalance}\`
@@ -59,6 +59,10 @@ export default {
                 **🏢 President:** \`$0\`
                 `,
                 inline: true
+            },*/
+            {
+                name: `Whips - ${party.Whips.length}`,
+                value: `${party.Whips.map(w => "<@"+w.value+">").join(', ') || "*None*"}`
             },
             {
                 name: `Members - ${party.Members}`,

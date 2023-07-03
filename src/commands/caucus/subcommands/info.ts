@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
+import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ColorResolvable } from "discord.js";
 import { DbTable, UuidFields, getRow, listRows } from "../../../db/database";
 import { TableCaucus, TableChamber } from "../../../models/Models";
 import { choice } from "../../../util/math";
@@ -63,7 +63,7 @@ export default {
                 value: seatsStrings.join('\n') || "*N/A*",
                 inline: false
             },
-            {
+            /*{
                 name: "Caucus Balance",
                 value: `**👥 Caucus:** \`$${caucusBalance}\`\n**👤 Members:** \`$${memberBalance}\``,
                 inline: true
@@ -72,6 +72,10 @@ export default {
                 name: "Race Spending",
                 value: `**🏠 House:** \`$0\`\n**🏛️ Senate:** \`$0\`\n**🏢 President:** \`$0\``,
                 inline: true
+            },*/
+            {
+                name: `Whips - ${caucus.Whips.length}`,
+                value: `${caucus.Whips.map(w => "<@"+w.value+">").join(', ') || "*None*"}`
             },
             {
                 name: `Members - ${caucus.Members}`,
@@ -79,6 +83,7 @@ export default {
             }
             
             )
+            .setColor(caucus.Color as ColorResolvable);
 
 
 

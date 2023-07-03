@@ -34,6 +34,9 @@ export default {
             })
             .addFields(
             {
+                name: `Managers - ${chamber.Managers.length}`, value: chamber.Managers.map(m => `<@${m.value}>`).join(",") || "*No managers*"
+            },
+            {
                 name: `Members - ${chamber.Members}`,
                 value: `${usersString || "*Nobody is in this chamber. You could be the first!*"}\n\n*${chamber.Description}*`
             }

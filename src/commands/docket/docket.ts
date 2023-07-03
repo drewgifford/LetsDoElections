@@ -3,6 +3,9 @@ import { notifyError } from "../../util/response";
 
 const submitCommand = require("./subcommands/submit");
 const viewCommand = require("./subcommands/view");
+const addmanagerCommand = require("./subcommands/addmanager");
+const removemanagerCommand = require("./subcommands/removemanager");
+const infoCommand = require("./subcommands/info");
 
 export default {
 
@@ -84,7 +87,58 @@ export default {
                     .setDescription("Show description of bills")
                     .setRequired(false)
                 )
-        ),
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("info")
+            .setDescription("View information about a docket")
+            .addStringOption(option =>
+                option.addChoices(
+                    {name: "House", value: "house"},
+                    {name: "Senate", value: "senate"},
+                    {name: "Executive", value: "executive"},
+                    {name: "Law", value: "law"}
+                )
+                .setName("docket")
+                .setDescription("Docket to view")
+                .setRequired(true)
+            )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("addmanager")
+            .setDescription("ADMIN ONLY - Adds a manager to a docket")
+            .addStringOption(option =>
+                option.addChoices(
+                    {name: "House", value: "house"},
+                    {name: "Senate", value: "senate"},
+                    {name: "Executive", value: "executive"},
+                    {name: "Law", value: "law"}
+                )
+                .setName("docket")
+                .setDescription("Docket to modify")
+                .setRequired(true)
+            )
+            .addUserOption(option => option.setName('user').setDescription('User to manage').setRequired(true))
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("removemanager")
+            .setDescription("ADMIN ONLY - Removes a manager from a docket")
+            .addStringOption(option =>
+                option.addChoices(
+                    {name: "House", value: "house"},
+                    {name: "Senate", value: "senate"},
+                    {name: "Executive", value: "executive"},
+                    {name: "Law", value: "law"}
+                )
+                .setName("docket")
+                .setDescription("Docket to modify")
+                .setRequired(true)
+            )
+            .addUserOption(option => option.setName('user').setDescription('User to manage').setRequired(true))
+        )
+        ,
         
         
     execute: async function(interaction: ChatInputCommandInteraction){
@@ -96,6 +150,12 @@ export default {
                 return await submitCommand.default.execute(interaction);
             case "view":
                 return await viewCommand.default.execute(interaction);
+            case "info":
+                return await infoCommand.default.execute(interaction);
+            case "addmanager":
+                return await addmanagerCommand.default.execute(interaction);
+            case "removemanager":
+                return await removemanagerCommand.default.execute(interaction);
             default:
                 return await notifyError(interaction, "Unknown error. Code 42");
 

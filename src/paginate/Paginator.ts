@@ -64,7 +64,7 @@ export default class Paginator {
 
 
         let firstItemIndex = (items.count > 0) ? ((this.page-1) * this.size + 1) : 0;
-        let lastItemIndex = (firstItemIndex + this.size - 1) <= items.count ? (firstItemIndex + this.size + 1) : items.count;
+        let lastItemIndex = firstItemIndex + items.results.length - 1;
 
         this.baseEmbed.setFooter({text: `Showing ${firstItemIndex}-${lastItemIndex} of ${items.count}`});
 

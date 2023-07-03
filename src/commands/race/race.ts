@@ -19,7 +19,8 @@ export default {
                     option.addChoices(
                         { name: "House of Representatives", value: "house" },
                         { name: "Senate", value: "senate" },
-                        { name: "Presidential", value: "president" }
+                        { name: "Presidential", value: "president" },
+                        { name: "Presidential Primaries", value: "president-primary"}
                     )
                     .setName("race")
                     .setDescription("Race to view")
@@ -35,7 +36,8 @@ export default {
                     option.addChoices(
                         { name: "House of Representatives", value: "house" },
                         { name: "Senate", value: "senate" },
-                        { name: "Presidential", value: "president" }
+                        { name: "Presidential", value: "president" },
+                        { name: "Presidential Primaries", value: "president-primary"}
                     )
                 .setName("race")
                 .setDescription("Race to join")

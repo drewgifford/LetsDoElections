@@ -36,6 +36,8 @@ export interface TableRace extends TableRow {
     Locked: boolean,
     Description: string,
     States: any[],
+    Active: boolean,
+    Channel: string,
     Users: any[]
 }
 
@@ -53,6 +55,8 @@ export interface TableCaucus extends TableRow {
     UserBalance: number,
     Dues: number,
     Seats: string,
+    Whips: any[],
+    Color: string,
 }
 
 export interface TableParty extends TableRow {
@@ -72,6 +76,7 @@ export interface TableParty extends TableRow {
     CaucusBalance: number,
     UserBalance: number,
     Dues: number,
+    Whips: any[],
 }
 
 export interface TableState extends TableRow {
@@ -87,10 +92,10 @@ export interface TableChamber extends TableRow {
     Name: string,
     Emoji: string,
     Users: any[],
-    Npcs: string,
     Docket: any[],
     Members: number,
     Description: string,
+    Managers: any[]
 }
 
 export interface TableDocket extends TableRow {
@@ -115,6 +120,19 @@ export interface TableBill extends TableRow {
     Status: any,
     Cosponsors: any[],
     Description: string,
+}
+
+export interface TableEvent extends TableRow {
+    Title: string,
+    User: any[],
+    EventType: string,
+    Description: string,
+    Race: any[],
+    Url: string,
+    MessageUrl: string,
+    States: any[],
+    Created: any,
+
 }
 
 type CommandExecution = (interaction: CommandInteraction) => any

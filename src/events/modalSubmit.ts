@@ -5,6 +5,7 @@ import { TableUser } from "../models/Models";
 
 const editCharacterModal = require("../modalResponse/editCharacter");
 const submitBillModal = require("../modalResponse/submitBill");
+const runCampaignModal = require("../modalResponse/runCampaign");
 
 export default { 
     name: "interactionCreate",
@@ -21,13 +22,18 @@ export default {
 
         let dbUser = await getRow(DbTable.Users, UuidFields.Users, interaction.user.id) as TableUser | null;
 
+        if (modalId.includes("runCampaign")){
+            return await runCampaignModal.default(interaction, dbUser);
+        }
+
         switch(modalId){
+
+            
 
             case "editCharacter":
                 return await editCharacterModal.default(interaction, dbUser);
             case "submitBill":
                 return await submitBillModal.default(interaction, dbUser);
-
 
         }
 
