@@ -30,6 +30,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         "Url": url,
         "Author": [ dbUser.id ],
         "Docket": [ docket.id ],
+        "InitialDocket": [docket.id],
         "Party": [ party.id ],
         "Caucus": [ caucus.id ],
         "Description": description,
