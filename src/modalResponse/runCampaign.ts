@@ -17,13 +17,13 @@ export default async function(interaction: ModalSubmitInteraction, user: TableUs
     }
 
     if (user.Race.length == 0){
-        return await notifyError(interaction, "You are not running in a race.");
+        return await interaction.editReply("You are not running in a race.");
     }
 
     let race = (await getRow(DbTable.Races, UuidFields.Races, user.Race[0].value)) as TableRace;
 
     if (!race.Active){
-        return await notifyError(interaction, `Campaigning is currently closed for the ${race.Emoji} ${race.Name} race.`);
+        return await interaction.editReply(`Campaigning is currently closed for the ${race.Emoji} ${race.Name} race.`);
     }
 
 
@@ -44,13 +44,13 @@ export default async function(interaction: ModalSubmitInteraction, user: TableUs
             campaignEmbed.setImage(url);
         }
     } catch(e){
-        return await notifyError(interaction, "You provided an invalid Media URL");
+        return await interaction.editReply("You provided an invalid Media URL");
     }
 
     let channel = await interaction.client.channels.fetch(race.Channel);
 
     if(!channel || !(channel.isTextBased())){
-        return await notifyError(interaction, "The campaign channel could not be found.");
+        return await interaction.editReply("The campaign channel could not be found.");
     }
 
     channel.send({embeds: [campaignEmbed]}).then(async message => {
@@ -77,7 +77,7 @@ export default async function(interaction: ModalSubmitInteraction, user: TableUs
         });
 
 
-        await interaction.reply({content: `<@${interaction.user.id}>`, embeds: [embed]});
+        await interaction.editReply({content: `<@${interaction.user.id}>`, embeds: [embed]});
 
 
     })

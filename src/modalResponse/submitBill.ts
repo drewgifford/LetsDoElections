@@ -55,14 +55,14 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         embed.setURL(url)
     } catch (e){
 
-        return await notifyError(interaction, "The Bill URL you provided is invalid.");
+        return await interaction.editReply("The Bill URL you provided is invalid.");
 
     }
 
     let response = await createRow(DbTable.Bills, data);
 
     if(!response){
-        return await interaction.reply("An error occurred");
+        return await interaction.editReply("An error occurred");
     }
 
     
@@ -71,5 +71,5 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
 
     await addToDocket(interaction.client as DiscordClient, newBill, docket);
 
-    await interaction.reply({embeds: [embed]});
+    await interaction.editReply({embeds: [embed]});
 }

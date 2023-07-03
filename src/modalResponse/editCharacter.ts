@@ -34,7 +34,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     }
 
     if(!response){
-        return await interaction.reply("An error occurred");
+        return await interaction.editReply("An error occurred");
     }
 
     dbUser = await getRow(DbTable.Users, UuidFields.Users, interaction.user.id) as TableUser
@@ -70,5 +70,5 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     }
 
 
-    interaction.reply({embeds: [embed]});
+    interaction.editReply({embeds: [embed]});
 }
