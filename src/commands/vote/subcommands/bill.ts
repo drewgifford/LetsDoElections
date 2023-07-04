@@ -220,7 +220,7 @@ export default {
             try {
                 e.setURL(url)
             } catch(e) {};
-            
+
             return e;
         }
 
@@ -231,9 +231,9 @@ export default {
             let embed = getEmbed();
 
             if(interaction.replied){
-                await interaction.editReply({content: `<@&${chamber.Role}>`, embeds: [embed], components: [actionRow]})
+                await interaction.editReply({allowedMentions: {roles: [chamber.Role]}, content: `<@&${chamber.Role}>`, embeds: [embed], components: [actionRow]})
             } else {
-                await interaction.reply({content: `<@&${chamber.Role}>`, embeds: [embed], components: [actionRow]})
+                await interaction.reply({allowedMentions: {roles: [chamber.Role]}, content: `<@&${chamber.Role}>`, embeds: [embed], components: [actionRow]})
             }
         }
         VOTING_CHANNELS.push(interaction.channelId);
