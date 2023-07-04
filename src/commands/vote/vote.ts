@@ -1,7 +1,7 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputCommandInteraction, AutocompleteInteraction } from "discord.js";
 import { notifyError } from "../../util/response";
 import { DbTable, listRows } from "../../db/database";
-import { TableState } from "../../models/Models";
+import { TableBill, TableState } from "../../models/Models";
 
 const billCommand = require("./subcommands/bill");
 const secondsCommand = require("./subcommands/seconds");
@@ -27,11 +27,12 @@ export default {
                         {name:"Senate", value:"senate"}
                     )
                 )
-                .addStringOption(option => 
+                .addStringOption(option =>
                     option
-                    .setName("title")
-                    .setDescription("Vote Title")
+                    .setName("bill")
+                    .setDescription("Bill to vote on")
                     .setRequired(true)
+                    .setAutocomplete(true)
                 )
         )
 
@@ -71,6 +72,26 @@ export default {
                     )
             )
         ),
+
+    autocomplete: async function(interaction: AutocompleteInteraction){
+
+        const focusedValue = interaction.options.getFocused();
+
+        let searchParam = `search=${focusedValue}&`
+        if (focusedValue == ""){
+            searchParam = ""
+        }
+
+        let bills = (await listRows(DbTable.Bills, `${searchParam}size=25&order_by=-Created`)) as TableBill[]
+
+
+        let filtered = bills.map(b => [`${b.Uuid} ${b.Name}`, b.Uuid]);
+
+        await interaction.respond(
+            filtered.map(choice => ({name: choice[0], value: choice[1]}))
+        );
+
+    },
         
     execute: async function(interaction: ChatInputCommandInteraction){
 

@@ -2,7 +2,7 @@ import { ButtonBuilder, EmbedBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, Emoji } from "discord.js";
 import { EMOJI_CHARACTER, EMOJI_DOCKET, EMOJI_ERROR, EMOJI_SUCCESS } from "../../../util/statics";
 import { DbTable, UuidFields, getRow, listRows } from "../../../db/database";
-import { TableCaucus, TableChamber, TableParty } from "../../../models/Models";
+import { TableBill, TableCaucus, TableChamber, TableParty } from "../../../models/Models";
 import { notifyError } from "../../../util/response";
 
 let VOTING_CHANNELS: string[] = [];
@@ -40,8 +40,17 @@ export default {
 
         let chamberId = interaction.options.get("chamber", true).value as string;
         
+        let billId = interaction.options.get("bill", true).value as string;
         
-        let title = interaction.options.get("title", true).value as string;
+        let bill = (await getRow(DbTable.Bills, UuidFields.Bills, billId)) as TableBill | null;
+
+        if (!bill){
+            return await notifyError(interaction, `Bill ${billId} does not exist.`);
+        }
+
+        let title = bill.Name;
+        let description = bill.Description;
+        let url = bill.Url;
 
         let chamber = (await getRow(DbTable.Chambers, UuidFields.Chambers, chamberId)) as TableChamber;
 
@@ -183,8 +192,9 @@ export default {
             let tally = calculateVotes();
 
 
-            return new EmbedBuilder()
+            let e = new EmbedBuilder()
             .setTitle(`${EMOJI_DOCKET} ${title}`)
+            .setDescription(description)
             .addFields(
                 {
                     name: `${EMOJI_SUCCESS} Ayes - ${getTotalVotes(tally, "aye")}`,
@@ -206,6 +216,12 @@ export default {
                     value: getCaucusVoteString(tally, 'present')
                 }
             )
+
+            try {
+                e.setURL(url)
+            } catch(e) {};
+            
+            return e;
         }
 
 
@@ -215,9 +231,9 @@ export default {
             let embed = getEmbed();
 
             if(interaction.replied){
-                await interaction.editReply({embeds: [embed], components: [actionRow]})
+                await interaction.editReply({content: `<@&${chamber.Role}>`, embeds: [embed], components: [actionRow]})
             } else {
-                await interaction.reply({embeds: [embed], components: [actionRow]})
+                await interaction.reply({content: `<@&${chamber.Role}>`, embeds: [embed], components: [actionRow]})
             }
         }
         VOTING_CHANNELS.push(interaction.channelId);
