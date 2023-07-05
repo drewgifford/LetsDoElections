@@ -42,6 +42,7 @@ export default {
         }
 
         if (!add) add = 0;
+
         if (!center) center = null;
 
 
@@ -60,7 +61,7 @@ export default {
 
                 var standard_deviation = sides / 2;
 
-                return Math.max(1, Math.min(sides, Math.round((gaussianRandom(center, standard_deviation)/sides) * (sides - 1)) + 1 + add));
+                return Math.max(1, Math.min(sides, Math.round((gaussianRandom(center, standard_deviation)/sides) * (sides - 1)) + 1 + (add || 0)));
             }
             else {
                 return Math.round(Math.random() * (sides - 1)) + 1 + (add || 0);
