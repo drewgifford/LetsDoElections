@@ -84,12 +84,17 @@ export default {
             })
         }
 
+
         let newDesc = description.split("&n").join("\n");
 
 
+
+
         let embed = new EmbedBuilder()
-            .setTitle(headline)
-            .setDescription(newDesc)
+            .setAuthor({
+                name: webhook.name, iconURL: webhook.avatarURL() || undefined
+            })
+            .setDescription(`# ${headline}\n${newDesc}`)
             .setColor("#ff0000")
         
         if(media) embed.setImage(media.url);
