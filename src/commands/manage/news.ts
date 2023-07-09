@@ -96,6 +96,7 @@ export default {
             })
             .setDescription(`# ${headline}\n${newDesc}`)
             .setColor("#ff0000")
+            .setFooter({iconURL: interaction.user.avatarURL() || undefined, text: `Written by __${interaction.user.username}__`})
         
         if(media) embed.setImage(media.url);
 
