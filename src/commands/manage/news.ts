@@ -92,7 +92,7 @@ export default {
 
         let embed = new EmbedBuilder()
             .setAuthor({
-                name: webhook.name, iconURL: webhook.avatarURL() || undefined
+                name: NEWS_AGENCIES[newsId].name, iconURL: NEWS_AGENCIES[newsId].logo
             })
             .setDescription(`# ${headline}\n${newDesc}`)
             .setColor("#ff0000")
