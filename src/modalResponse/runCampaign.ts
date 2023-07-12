@@ -53,7 +53,7 @@ export default async function(interaction: ModalSubmitInteraction, user: TableUs
         return await interaction.editReply("The campaign channel could not be found.");
     }
 
-    channel.send({embeds: [campaignEmbed]}).then(async message => {
+    channel.send({content: `<@${interaction.user.id}>`, embeds: [campaignEmbed]}).then(async message => {
 
 
         let embed = new EmbedBuilder()
