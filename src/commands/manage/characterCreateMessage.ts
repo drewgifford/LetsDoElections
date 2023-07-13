@@ -27,7 +27,7 @@ export default {
 
         let embed = new EmbedBuilder()
             .setTitle("Create a Character!")
-            .setDescription("Finish pre-verification and create your character below. Your character doesn't have to be human - do whatever you want to do!\n\nIf you don't plan to participate in the sim and just want to lurk - Just set your name and description to anything.")
+            .setDescription("Finish pre-verification and create your character below. Your character doesn't have to be human - do whatever you want to do!\n\nIf you don't plan to participate in the sim and just want to lurk - Just set your name and description to anything.\n\nFeel free to check out the channels you've unlocked. You can read up on the lore, the laws that have passed, and previous elections.")
             .setThumbnail("https://cdn.discordapp.com/attachments/1068018112420659220/1128834192982155345/LDE3_1990s_yea_3.png")
 
         

@@ -43,10 +43,8 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     let createCharacterChannel = await interaction.guild.channels.fetch(createCharacterChannelId);
 
     if(createCharacterChannel && createCharacterChannel.isTextBased()){
-
-        await (await createCharacterChannel.send(`<@${interaction.user.id}>`)).delete();
-
-
+        let m = await createCharacterChannel.send(`<@${interaction.user.id}>`);
+        await m.delete();
     }
 
 
