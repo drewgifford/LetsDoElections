@@ -82,6 +82,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         console.log(verifyingUsers);
 
         if (!(interaction.user.id in verifyingUsers)){
+            console.log("User ID not in verifying users");
             return;
         }
 
