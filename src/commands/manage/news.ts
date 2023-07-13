@@ -17,7 +17,7 @@ const NEWS_AGENCIES: any = {
 }
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("news")
         .setDescription("Sends out a news ping")

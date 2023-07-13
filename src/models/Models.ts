@@ -7,6 +7,10 @@ export interface TableRow {
     Uuid: string
 }
 
+export interface TableSetting extends TableRow {
+    Value: string,
+}
+
 export interface TableUser extends TableRow {
 
     Nickname: string,

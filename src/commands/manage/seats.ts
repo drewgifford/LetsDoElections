@@ -12,7 +12,7 @@ let tips = [
 ]
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("seats")
         .setDescription("Sets a caucus's seats in a chamber")

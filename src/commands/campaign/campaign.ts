@@ -9,7 +9,7 @@ const runCommand = require("./subcommands/run")
 const viewCommand = require("./subcommands/view")
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("campaign")
         .setDescription("Events pertaining to campaigns")

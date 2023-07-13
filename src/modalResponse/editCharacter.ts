@@ -1,7 +1,7 @@
 import { ActionRowBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
 import { TableUser } from "../models/Models";
-import { DbTable, UuidFields, createRow, getRow, updateRow } from "../db/database";
+import { DbTable, UuidFields, createRow, getRow, getSetting, updateRow } from "../db/database";
 import { EMOJI_SUCCESS } from "../util/statics";
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
@@ -64,6 +64,35 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
             text: "🛈 Tip: If your faceclaim doesn't appear, you provided an invalid image URL."
         }
     )
+
+    if (interaction.customId == "editNewCharacter"){
+
+        if(!interaction.guild) return;
+
+        let generalChannelId = await getSetting("GeneralChannel");
+
+        let generalChannel = generalChannelId ? await interaction.client.channels.fetch(generalChannelId) : null;
+
+        // REMOVE CREATING CHARACTER ROLE, GIVE UNVERIFIED ROLE
+        let creatingCharacterRole = await getSetting("CreatingCharacterRole");
+        let unverifiedRole = await getSetting("UnverifiedRole");
+
+        
+        let member = await interaction.guild.members.fetch(interaction.user.id)
+
+        if(creatingCharacterRole) await member.roles.remove(creatingCharacterRole);
+        if(unverifiedRole) await member.roles.add(unverifiedRole);
+
+        if(generalChannel && generalChannel.isTextBased()){
+
+            embed.setTitle("New user just joined!")
+            embed.setDescription(`Please welcome <@${interaction.user.id}>! Their character is shown below:`)
+
+            await generalChannel.send({embeds: [embed], content: `<@${interaction.user.id}>`});
+        }
+        return;
+    }
+
 
     if (dbUser.Faceclaim){
         embed.setThumbnail(dbUser.Faceclaim);

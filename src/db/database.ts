@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TableRow, TableUser, TableParty } from "../models/Models";
+import { TableRow, TableUser, TableParty, TableSetting } from "../models/Models";
 
 require("dotenv").config();
 
@@ -18,7 +18,8 @@ export enum DbTable {
     Bills = 177020,
     Chambers = 177021,
     Dockets = 177023,
-    Events = 177545
+    Events = 177545,
+    Settings = 180202
 }
 
 export enum UuidFields {
@@ -30,7 +31,8 @@ export enum UuidFields {
     Bills = "field_1182357",
     Chambers = "field_1182365",
     Dockets = "field_1182390",
-    Events = "field_1186125"
+    Events = "field_1186125",
+    Settings = "field_1206576"
 }
 
 export async function listRows(table: DbTable, filter: string = ""){
@@ -54,6 +56,33 @@ export async function listRows(table: DbTable, filter: string = ""){
 
     // We did get some data back
     return response.data.results as TableRow[];
+}
+
+export async function getSetting(name: string){
+
+    let row = await getRow(DbTable.Settings, UuidFields.Settings, name) as TableSetting | null;
+
+    if(!row) return null;
+
+    return row.Value;
+}
+export async function setSetting(name: string, value: string){
+
+    let row = await getRow(DbTable.Settings, UuidFields.Settings, name);
+
+    if(!row){
+
+        return await createRow(DbTable.Settings, {
+            "Uuid": name,
+            "Value": value
+        });
+
+    } else {
+        return await updateRow(DbTable.Settings, row.id, {
+            "Value": value
+        })
+    }
+
 }
 
 export async function getPage(table: DbTable, amountPerPage: number, filter: string = "", page: number = 1){

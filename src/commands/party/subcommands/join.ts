@@ -1,8 +1,8 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
-import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/database";
+import { DbTable, UuidFields, getRow, getSetting, listRows, updateRow } from "../../../db/database";
 import { TableParty, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
-import { notifyError, notifyNoCharacter } from "../../../util/response";
+import { notifyError, notifyNoCharacter, notifyNotVerified } from "../../../util/response";
 import { EMOJI_SUCCESS } from "../../../util/statics";
 var _ = require("lodash")
 
@@ -19,6 +19,15 @@ export default {
     async execute(interaction: ChatInputCommandInteraction) {
 
         let partyId = interaction.options.get("party", true).value as string;
+
+        // TEST FOR VERIFICATION
+        let verifiedRole = await getSetting("VerifiedRole");
+        if(!verifiedRole) return;
+        if(!interaction.member) return;
+
+        if (!(verifiedRole in interaction.member.roles)){
+            return await notifyNotVerified(interaction);
+        }
         
         let party = (await getRow(DbTable.Parties, UuidFields.Parties, partyId)) as TableParty;
         let userDb = (await getRow(DbTable.Users, UuidFields.Users, interaction.user.id)) as TableUser;

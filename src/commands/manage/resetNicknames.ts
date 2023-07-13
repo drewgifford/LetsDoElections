@@ -19,7 +19,7 @@ const NEWS_AGENCIES: any = {
 const ROLES: any[] = [];
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("resetroles")
         .setDescription("Resets all roles")

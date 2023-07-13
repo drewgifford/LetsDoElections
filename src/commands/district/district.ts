@@ -5,7 +5,7 @@ import { DbTable, listRows } from "../../db/database";
 const joinCommand = require("./subcommands/join");
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("district")
         .setDescription("Various commands relating to districts")

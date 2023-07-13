@@ -6,6 +6,7 @@ import { TableUser } from "../models/Models";
 const editCharacterModal = require("../modalResponse/editCharacter");
 const submitBillModal = require("../modalResponse/submitBill");
 const runCampaignModal = require("../modalResponse/runCampaign");
+const verifyModal = require("../modalResponse/verifyUser");
 
 export default { 
     name: "interactionCreate",
@@ -30,8 +31,10 @@ export default {
         switch(modalId){
 
             
-
+            case "verify":
+                return await verifyModal.default(interaction, dbUser);
             case "editCharacter":
+            case "editNewCharacter":
                 return await editCharacterModal.default(interaction, dbUser);
             case "submitBill":
                 return await submitBillModal.default(interaction, dbUser);

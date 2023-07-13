@@ -7,7 +7,7 @@ const addmanagerCommand = require("./subcommands/addmanager");
 const removemanagerCommand = require("./subcommands/removemanager");
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("chamber")
         .setDescription("Various commands relating to chambers")

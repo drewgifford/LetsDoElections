@@ -9,7 +9,7 @@ const addwhipCommand = require("./subcommands/addwhip");
 const removewhipCommand = require("./subcommands/removewhip");
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("caucus")
         .setDescription("Various commands relating to caucuses")

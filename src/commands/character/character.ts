@@ -5,7 +5,7 @@ const infoCommand = require("./subcommands/info");
 const editCommand = require("./subcommands/edit");
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("character")
         .setDescription("Various commands relating to caucuses")

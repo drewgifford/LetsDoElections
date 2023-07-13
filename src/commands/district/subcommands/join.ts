@@ -1,8 +1,8 @@
 import { CommandInteraction, SlashCommandBuilder, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
-import { DbTable, UuidFields, getRow, listRows, updateRow } from "../../../db/database";
+import { DbTable, UuidFields, getRow, getSetting, listRows, updateRow } from "../../../db/database";
 import { TableState, TableUser } from "../../../models/Models";
 import { choice, nth } from "../../../util/math";
-import { notifyError, notifyNoCharacter } from "../../../util/response";
+import { notifyError, notifyNoCharacter, notifyNotVerified } from "../../../util/response";
 var _ = require("lodash")
 
 let tips = [
@@ -19,6 +19,15 @@ export default {
 
         let district: number = interaction.options.getInteger("district") as number;
         let userDb = (await getRow(DbTable.Users, UuidFields.Users, interaction.user.id)) as TableUser;
+
+        // TEST FOR VERIFICATION
+        let verifiedRole = await getSetting("VerifiedRole");
+        if(!verifiedRole) return;
+        if(!interaction.member) return;
+
+        if (!(verifiedRole in interaction.member.roles)){
+            return await notifyNotVerified(interaction);
+        }
 
         // CHECK #0: Does the user have a character?
         if(!userDb){

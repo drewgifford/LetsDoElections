@@ -12,7 +12,7 @@ let tips = [
 ]
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("balance")
         .setDescription("Check the balance of yourself or another user.")

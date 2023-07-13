@@ -8,7 +8,7 @@ const addwhipCommand = require("./subcommands/addwhip");
 const removewhipCommand = require("./subcommands/removewhip");
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("party")
         .setDescription("Various commands relating to parties")

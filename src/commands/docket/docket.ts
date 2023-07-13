@@ -8,7 +8,7 @@ const removemanagerCommand = require("./subcommands/removemanager");
 const infoCommand = require("./subcommands/info");
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("docket")
         .setDescription("Management of the Bill Docket")

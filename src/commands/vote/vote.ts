@@ -9,6 +9,7 @@ const endCommand = require("./subcommands/end");
 
 export default {
 
+    
     data: new SlashCommandBuilder()
         .setName("vote")
         .setDescription("Voting commands")

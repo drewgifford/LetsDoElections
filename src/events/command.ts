@@ -1,5 +1,7 @@
 import { Interaction } from "discord.js"
 import { IDiscordClient } from "../client"
+import { EmbedBuilder } from "@discordjs/builders";
+import { EMOJI_ERROR } from "../util/statics";
 
 export default { 
     name: "interactionCreate",

@@ -9,6 +9,11 @@ export async function notifyOtherNoCharacter(interaction: any, user: User){
     return await notifyError(interaction, `<@${user.id}> has not yet created a character.`);
 }
 
+export async function notifyNotVerified(interaction: any){
+    return await notifyError(interaction, `You have not yet been verified.`);
+}
+
+
 
 export async function notifyError(interaction: any, message: string){
 

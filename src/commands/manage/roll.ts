@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionBase, ApplicationCommandOptionType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 export default {
-
+    
     data: new SlashCommandBuilder()
         .setName("roll")
         .setDescription("Rolls a die")

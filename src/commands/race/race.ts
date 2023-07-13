@@ -8,6 +8,8 @@ const dropoutCommand = require("./subcommands/dropout");
 
 export default {
 
+    
+
     data: new SlashCommandBuilder()
         .setName("race")
         .setDescription("Various commands relating to races")
