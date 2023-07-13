@@ -33,11 +33,13 @@ export default {
 
         let member = await interaction.guild.members.fetch(user.id);
 
+        await user.send({embeds: [dmEmbed]});
+
         try {
             if (member.kickable) await member.kick();
         } catch(e){}
 
-        await user.send({embeds: [dmEmbed]});
+        
         await interaction.followUp(`<@${user.id}> has failed verification.`)
 
 
