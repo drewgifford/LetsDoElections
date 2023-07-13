@@ -18,7 +18,7 @@ export default {
 
         let dmEmbed = new EmbedBuilder()
             .setTitle("You've Been Verified!")
-            .setDescription("Congratulations! You have been verified on Let's Do Elections. You are now able to participate in the sim.")
+            .setDescription("Congratulations! You have been verified on Let's Do Elections! You are now able to participate in the sim.")
             .addFields({
 
                 name: "Where do I start?",
@@ -38,16 +38,36 @@ export default {
         }
         else if(!member.roles.cache.has(unverifiedRole)){
 
-            return await interaction.followUp("User has not completed verification.")
+            return await interaction.followUp("User has not completed pre-verification.")
         }
         
 
         await member.roles.remove(unverifiedRole);
         await member.roles.add(verifiedRole);
 
+        let generalChannelId = await getSetting("GeneralChannel");
+
+        try {
+            await user.send({embeds: [dmEmbed]});
+        } catch(e){}
+
+        if(generalChannelId){
+
+            let generalChannel = await interaction.guild.channels.fetch(generalChannelId);
+
+            if(generalChannel && generalChannel.isTextBased()){
+
+                let e = dmEmbed;
+                e.setTitle("User completed verification!");
+                e.setDescription(`<@${user.id}> has been verified on Let's Do Elections! You are now able to participate in the sim.`)
+
+                await generalChannel.send({embeds: [e], content: `<@${user.id}>`});
+
+            }
 
 
-        await user.send({embeds: [dmEmbed]});
+        }
+
         await interaction.followUp(`<@${user.id}> has been verified!`)
 
 

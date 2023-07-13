@@ -1,7 +1,7 @@
 import { ActionRowBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
 import { TableUser } from "../models/Models";
-import { DbTable, UuidFields, createRow, getRow, getSetting, updateRow } from "../db/database";
+import { DbTable, UuidFields, createRow, getRow, getSetting, setSetting, updateRow } from "../db/database";
 import { EMOJI_SUCCESS } from "../util/statics";
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
@@ -77,9 +77,49 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
 
         if(!interaction.guild) return;
 
+        let verifyingUsers = JSON.parse(await getSetting("VerifyingUsers") as string);
+        if (!(interaction.user.id in Object.keys(verifyingUsers))){
+            return;
+        }
+
         let generalChannelId = await getSetting("GeneralChannel");
 
         let generalChannel = generalChannelId ? await interaction.client.channels.fetch(generalChannelId) : null;
+
+        let verifyChannelId = await getSetting("VerificationChannel") || "";
+        let verifyChannel = await interaction.client.channels.fetch(verifyChannelId);
+
+        if(verifyChannel && verifyChannel.isTextBased()){
+                let userResponses = verifyingUsers[interaction.user.id];
+                let vEmbed = new EmbedBuilder()
+
+                    .setTitle("Pending Verification")
+                    .setDescription(`<@${interaction.user.id}> is pending verification. Their answers to questions are below.`)
+                    .addFields(
+
+                        {
+                            name: "Where did you hear about Let's Do Elections?",
+                            value: userResponses.referral
+                        },
+                        {
+                            name: "How old are you?",
+                            value: userResponses.age
+                        },
+                        {
+                            name: "How long have you had Discord?",
+                            value: userResponses.discordAge
+                        },
+                        {
+                            name: "What, if any, mock govs have you been in?",
+                            value: userResponses.mockGov
+                        }
+                    )
+                    .setThumbnail(interaction.user.avatarURL())
+                    .setColor("Blurple")
+                    .setFooter({text: "Use /verify accept or /verify fail to process this user."})
+
+                await verifyChannel.send({embeds: [vEmbed], content: `<@${interaction.user.id}>`})
+            }
 
         // REMOVE CREATING CHARACTER ROLE, GIVE UNVERIFIED ROLE
         let creatingCharacterRole = await getSetting("CreatingCharacterRole");
@@ -99,6 +139,10 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
 
             await generalChannel.send({embeds: [embed], content: `<@${interaction.user.id}>`});
         }
+
+        delete verifyingUsers[interaction.user.id];
+        await setSetting("VerifyingUsers", verifyingUsers);
+        
         return;
     }
 

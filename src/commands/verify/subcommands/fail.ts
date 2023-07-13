@@ -16,8 +16,23 @@ export default {
 
         await interaction.deferReply();
 
+
+        let member = await interaction.guild.members.fetch(user.id);
+
+        let unverifiedRole = await getSetting("UnverifiedRole") as string;
+        let verifiedRole = await getSetting("VerifiedRole") as string;
+
+        if(!member.roles.cache.has(unverifiedRole)){
+
+            return await interaction.followUp("User has not completed pre-verification.")
+        }
+        
+
+        await member.roles.remove(unverifiedRole);
+        await member.roles.add(verifiedRole);
+
         let dmEmbed = new EmbedBuilder()
-            .setTitle("You have failed verification")
+            .setTitle("You have failed verification.")
             .setDescription("Unfortunately, for one reason or another, you have failed verification.")
             .addFields({
 
@@ -31,9 +46,10 @@ export default {
             })
             .setColor("Red");
 
-        let member = await interaction.guild.members.fetch(user.id);
 
-        await user.send({embeds: [dmEmbed]});
+        try {
+            await user.send({embeds: [dmEmbed]});
+        } catch(e){}
 
         try {
             if (member.kickable) await member.kick();

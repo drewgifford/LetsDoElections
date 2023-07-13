@@ -1,7 +1,7 @@
 import { ActionRowBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
 import { TableUser } from "../models/Models";
-import { DbTable, UuidFields, createRow, getRow, getSetting, updateRow } from "../db/database";
+import { DbTable, UuidFields, createRow, getRow, getSetting, setSetting, updateRow } from "../db/database";
 import { EMOJI_SUCCESS } from "../util/statics";
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
@@ -11,42 +11,20 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     let discordAge: string = interaction.fields.getTextInputValue("discordAge");
     let mockGov: string = interaction.fields.getTextInputValue("mockGov")
 
-    let verifyChannelId = await getSetting("VerificationChannel") || "";
-    let verifyChannel = await interaction.client.channels.fetch(verifyChannelId);
 
     if(!interaction.guild) return;
 
-    if(verifyChannel && verifyChannel.isTextBased()){
+    let verifyingUsers = JSON.parse(await getSetting("VerifyingUsers") as string);
 
-        let vEmbed = new EmbedBuilder()
-
-            .setTitle("Pending Verification")
-            .setDescription(`<@${interaction.user.id}> is pending verification. Their answers to questions are below.`)
-            .addFields(
-
-                {
-                    name: "Where did you hear about Let's Do Elections?",
-                    value: referral
-                },
-                {
-                    name: "How old are you?",
-                    value: age
-                },
-                {
-                    name: "How long have you had Discord?",
-                    value: discordAge
-                },
-                {
-                    name: "What, if any, mock govs have you been in?",
-                    value: mockGov
-                }
-            )
-            .setThumbnail(interaction.user.avatarURL())
-            .setColor("Blurple")
-            .setFooter({text: "Use /verify accept or /verify fail to process this user."})
-
-        await verifyChannel.send({embeds: [vEmbed], content: `<@${interaction.user.id}>`})
+    verifyingUsers[interaction.user.id] = {
+        "referral": referral,
+        "age": age,
+        "discordAge": discordAge,
+        "mockGov": mockGov
     }
+
+    await setSetting("VerifyingUsers", JSON.stringify(verifyingUsers));
+
 
 
     let creatingCharacterRole = await getSetting("CreatingCharacterRole");
