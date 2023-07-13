@@ -3,6 +3,7 @@ import { EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, T
 import { TableUser } from "../models/Models";
 import { DbTable, UuidFields, createRow, getRow, getSetting, setSetting, updateRow } from "../db/database";
 import { EMOJI_SUCCESS } from "../util/statics";
+import _ from "lodash"
 
 export default async function(interaction: ModalSubmitInteraction, dbUser: TableUser | null){
     
@@ -145,7 +146,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         }
 
         delete verifyingUsers[interaction.user.id];
-        await setSetting("VerifyingUsers", verifyingUsers);
+        await setSetting("VerifyingUsers", JSON.stringify(verifyingUsers));
 
         return;
     }
