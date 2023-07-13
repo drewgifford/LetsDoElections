@@ -25,7 +25,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
             .addFields(
 
                 {
-                    name: "Where did you hear about Let's Do Elections (LDE)?",
+                    name: "Where did you hear about Let's Do Elections?",
                     value: referral
                 },
                 {
@@ -37,7 +37,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
                     value: discordAge
                 },
                 {
-                    name: "Have you participated in any mock govs? If so, which ones?",
+                    name: "What, if any, mock govs have you been in?",
                     value: mockGov
                 }
             )
@@ -55,7 +55,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
     if(gatekeeperRole) await member.roles.remove(gatekeeperRole);
     if(creatingCharacterRole) await member.roles.add(creatingCharacterRole);
 
-    
+
 
 
 }

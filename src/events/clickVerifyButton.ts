@@ -31,7 +31,7 @@ export default {
 
         let referralInput = new TextInputBuilder()
             .setCustomId("referral")
-            .setLabel("Where did you hear about Let's Do Elections (LDE)?")
+            .setLabel("Where did you hear about Let's Do Elections?")
             .setStyle(TextInputStyle.Short)
             .setRequired(true)
 
@@ -49,7 +49,7 @@ export default {
 
         let mockGovInput = new TextInputBuilder()
             .setCustomId("mockGov")
-            .setLabel("Have you participated in any mock govs? If so, which ones?")
+            .setLabel("What, if any, mock govs have you been in?")
             .setStyle(TextInputStyle.Short)
             .setRequired(true)
 
