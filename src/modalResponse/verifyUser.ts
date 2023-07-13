@@ -32,8 +32,9 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
 
     let member = await interaction.guild.members.fetch(interaction.user.id)
 
-    if(gatekeeperRole) await member.roles.remove(gatekeeperRole);
     if(creatingCharacterRole) await member.roles.add(creatingCharacterRole);
+    if(gatekeeperRole) await member.roles.remove(gatekeeperRole);
+    
 
 
 

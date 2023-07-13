@@ -133,8 +133,9 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
 
         let member = await interaction.guild.members.fetch(interaction.user.id)
 
-        if(creatingCharacterRole) await member.roles.remove(creatingCharacterRole);
         if(unverifiedRole) await member.roles.add(unverifiedRole);
+        if(creatingCharacterRole) await member.roles.remove(creatingCharacterRole);
+        
 
         if(generalChannel && generalChannel.isTextBased()){
 
