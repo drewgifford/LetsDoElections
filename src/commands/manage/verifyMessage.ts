@@ -26,7 +26,7 @@ export default {
 
 
         let embed = new EmbedBuilder()
-            .setTitle("Welcome to Let's Do Elections")
+            .setTitle("Welcome to Let's Do Elections!")
             .setDescription("To get started, begin verification by clicking the button below!")
             .setThumbnail("https://cdn.discordapp.com/attachments/1068018112420659220/1128834192982155345/LDE3_1990s_yea_3.png")
 

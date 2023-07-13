@@ -18,7 +18,6 @@ export default {
 
         if(!interaction.isModalSubmit()) return;
 
-        await interaction.deferReply();
         let modalId = interaction.customId;
         // Get modal type
 
@@ -32,11 +31,14 @@ export default {
 
             
             case "verify":
+                await interaction.deferUpdate();
                 return await verifyModal.default(interaction, dbUser);
             case "editCharacter":
             case "editNewCharacter":
+                await interaction.deferReply();
                 return await editCharacterModal.default(interaction, dbUser);
             case "submitBill":
+                await interaction.deferReply();
                 return await submitBillModal.default(interaction, dbUser);
 
         }
