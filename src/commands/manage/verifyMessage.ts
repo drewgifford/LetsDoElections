@@ -27,7 +27,7 @@ export default {
 
         let embed = new EmbedBuilder()
             .setTitle("Welcome to Let's Do Elections!")
-            .setDescription("To get started, begin verification by clicking the button below!")
+            .setDescription("If you don't know us, we are a mock government of the United States built off a light alternate history starting in the 1980s. Let's Do Elections has been around in various forms since Early 2021, and this server is the third iteration of the LDE Series.\n\nTo get started, begin verification by clicking the button below!")
             .setThumbnail("https://cdn.discordapp.com/attachments/1068018112420659220/1128834192982155345/LDE3_1990s_yea_3.png")
 
         
