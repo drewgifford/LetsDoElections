@@ -16,7 +16,7 @@ export default {
         const message = interaction.message;
 
         
-        let verifyMessageId = await getSetting("VerifyMessage");
+        let verifyMessageId = await getSetting("CharacterMessage");
 
         if (message.id != verifyMessageId){
             return;

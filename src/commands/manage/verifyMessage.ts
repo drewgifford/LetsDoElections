@@ -22,7 +22,7 @@ export default {
     async execute(interaction: ChatInputCommandInteraction) { 
 
         let channel = interaction.channel;
-        await interaction.deferReply();
+        await interaction.deferReply({ephemeral: true});
 
 
         let embed = new EmbedBuilder()
