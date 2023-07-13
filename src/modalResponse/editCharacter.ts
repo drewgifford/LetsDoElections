@@ -80,8 +80,8 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         let verifyingUsers = JSON.parse(await getSetting("VerifyingUsers") as string);
 
         console.log(verifyingUsers);
-        
-        if (!(interaction.user.id in Object.keys(verifyingUsers))){
+
+        if (!(interaction.user.id in verifyingUsers)){
             return;
         }
 
