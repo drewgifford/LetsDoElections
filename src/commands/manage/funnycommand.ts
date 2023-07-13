@@ -16,7 +16,7 @@ const NEWS_AGENCIES: any = {
     }
 }
 
-const ROLES: any[] = [];
+const ROLES: any[] = ["1128829973315198987"];
 
 export default {
     
