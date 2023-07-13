@@ -21,8 +21,8 @@ const ROLES: any[] = [];
 export default {
     
     data: new SlashCommandBuilder()
-        .setName("resetroles")
-        .setDescription("Resets all roles")
+        .setName("funnycommand")
+        .setDescription("Does a funny thing")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 
@@ -30,12 +30,12 @@ export default {
 
         let guild = interaction.guild;
 
-        return await notifyError(interaction, "This command is deprecated.");
-        /*
+        //return await notifyError(interaction, "This command is deprecated.");
+        
 
         if(!guild) return;
 
-        let parties = (await listRows(DbTable.Parties)) as TableParty[];
+        /*let parties = (await listRows(DbTable.Parties)) as TableParty[];
         let caucuses = (await listRows(DbTable.Caucuses)) as TableCaucus[];
         let races = (await listRows(DbTable.Races)) as TableRace[];
         let chambers = (await listRows(DbTable.Chambers)) as TableChamber[];
@@ -62,27 +62,30 @@ export default {
             if (race.Role){
                 ROLES.push(race.Role);
             }
-        }
+        }*/
         let count = 0;
 
-        await interaction.reply("Resetting all roles...");
+        await interaction.reply("Grandfathering users into Verification");
 
         guild.members.fetch().then((members) => {
 
 
             members.forEach(g => {
-                g.roles.remove(ROLES).then((a) => {
-                    console.log("[OK] Reset", g.displayName + "'s", "roles.");
+
+                if(g.roles.cache.has("1089599209868636191")) return;
+
+                g.roles.add(ROLES).then((a) => {
+                    console.log("[OK] Verified", g.displayName);
                     count++;
                 }).catch(e => {
-                    console.log("[WARN] Couldn't reset", g.displayName + "'s", "roles.");
+                    console.log("[WARN] Couldn't verify", g.displayName);
                 })
-            });
+            })
 
-        }).then(() => {
-            interaction.followUp("Done! I reset " + count + " people.");
-        })
-        */
+            interaction.followUp("Done! I verified " + count + " people.");
+
+        });
+        
         
 
 
