@@ -78,6 +78,9 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         if(!interaction.guild) return;
 
         let verifyingUsers = JSON.parse(await getSetting("VerifyingUsers") as string);
+
+        console.log(verifyingUsers);
+        
         if (!(interaction.user.id in Object.keys(verifyingUsers))){
             return;
         }
@@ -142,7 +145,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
 
         delete verifyingUsers[interaction.user.id];
         await setSetting("VerifyingUsers", verifyingUsers);
-        
+
         return;
     }
 
