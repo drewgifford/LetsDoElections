@@ -23,9 +23,11 @@ export default {
         // TEST FOR VERIFICATION
         let verifiedRole = await getSetting("VerifiedRole");
         if(!verifiedRole) return;
-        if(!interaction.member) return;
+        if(!interaction.guild) return;
 
-        if (!(verifiedRole in interaction.member.roles)){
+        let member = await interaction.guild.members.fetch(interaction.user.id);
+
+        if (!member || !(member.roles.cache.get(verifiedRole))){
             return await notifyNotVerified(interaction);
         }
 
