@@ -41,6 +41,8 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
                     value: mockGov
                 }
             )
+            .setThumbnail(interaction.user.avatarURL())
+            .setColor("Blurple")
             .setFooter({text: "Use /verify accept or /verify fail to process this user."})
 
         await verifyChannel.send({embeds: [vEmbed], content: `<@${interaction.user.id}>`})

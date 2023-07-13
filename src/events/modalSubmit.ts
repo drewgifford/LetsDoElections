@@ -33,8 +33,10 @@ export default {
             case "verify":
                 await interaction.deferUpdate();
                 return await verifyModal.default(interaction, dbUser);
-            case "editCharacter":
             case "editNewCharacter":
+                await interaction.deferUpdate();
+                return await editCharacterModal.default(interaction, dbUser);
+            case "editCharacter":
                 await interaction.deferReply();
                 return await editCharacterModal.default(interaction, dbUser);
             case "submitBill":

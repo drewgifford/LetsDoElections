@@ -94,7 +94,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         if(generalChannel && generalChannel.isTextBased()){
 
             embed.setTitle("User Completed Pre-Verification!")
-            embed.setDescription(`Welcome to Let's Do Elections, <@${interaction.user.id}>! You are currently in the pre-verification phase.\n\nDuring pre-verification, you will be able to send messages in non-canon channels, and view all channels a normal user can. Once you have been verified, you will receive a DM from the bot, and you will be able to join a party, run for office, and participate in the sim.`)
+            embed.setDescription(`Welcome to Let's Do Elections, <@${interaction.user.id}>! You are currently in the pre-verification phase.\n\nDuring pre-verification, you will be able to send messages in non-canon channels, and view all channels a normal user can. Once you have been verified, you will receive a DM from the bot, and you will be able to join voice channels, join a party, run for office, and participate in the sim.`)
             embed.setColor("Blurple")
 
             await generalChannel.send({embeds: [embed], content: `<@${interaction.user.id}>`});
