@@ -24,6 +24,7 @@ export default {
         let dbUser = await getRow(DbTable.Users, UuidFields.Users, interaction.user.id) as TableUser | null;
 
         if (modalId.includes("runCampaign")){
+            await interaction.deferReply();
             return await runCampaignModal.default(interaction, dbUser);
         }
 
