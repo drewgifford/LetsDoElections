@@ -43,6 +43,7 @@ export default class Paginator {
 
     async changePage(diff: number){
 
+
         this.page += diff;
 
         console.log("CHECKING", this.page)
@@ -89,6 +90,10 @@ export default class Paginator {
 
         const row = new ActionRowBuilder()
             .addComponents(prevPage, currPage, nextPage) as any;
+
+        if(!this.interaction.deferred){
+            this.interaction.deferReply();
+        }
 
         if(!this.interaction.replied){
             if(!this.interaction) return;
