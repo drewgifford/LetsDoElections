@@ -91,10 +91,6 @@ export default class Paginator {
         const row = new ActionRowBuilder()
             .addComponents(prevPage, currPage, nextPage) as any;
 
-        if(!this.interaction.deferred){
-            this.interaction.deferReply();
-        }
-
         if(!this.interaction.replied){
             if(!this.interaction) return;
             await this.interaction.reply({embeds: [this.baseEmbed], components: [row]});
