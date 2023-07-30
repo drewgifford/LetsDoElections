@@ -19,7 +19,8 @@ export enum DbTable {
     Chambers = 177021,
     Dockets = 177023,
     Events = 177545,
-    Settings = 180202
+    Settings = 180202,
+    ModelResults = 184382
 }
 
 export enum UuidFields {
@@ -32,7 +33,8 @@ export enum UuidFields {
     Chambers = "field_1182365",
     Dockets = "field_1182390",
     Events = "field_1186125",
-    Settings = "field_1206576"
+    Settings = "field_1206576",
+    ModelResults = "field_1237979"
 }
 
 export async function listRows(table: DbTable, filter: string = ""){
@@ -57,16 +59,16 @@ export async function listRows(table: DbTable, filter: string = ""){
     // We did get some data back
     return response.data.results as TableRow[];
 }
-
-export async function getSetting(name: string){
+export async function getValue(table: DbTable, uuidField: UuidFields, name: string){
 
     let row = await getRow(DbTable.Settings, UuidFields.Settings, name) as TableSetting | null;
 
     if(!row) return null;
 
     return row.Value;
+
 }
-export async function setSetting(name: string, value: string){
+export async function setValue(table: DbTable, uuidField: UuidFields, name: string, value: string){
 
     let row = await getRow(DbTable.Settings, UuidFields.Settings, name);
 
@@ -82,7 +84,15 @@ export async function setSetting(name: string, value: string){
             "Value": value
         })
     }
+}
 
+export async function getSetting(name: string){
+
+    return await getValue(DbTable.Settings, UuidFields.Settings, name);
+}
+export async function setSetting(name: string, value: string){
+
+    return await setValue(DbTable.Settings, UuidFields.Settings, name, value);
 }
 
 export async function getPage(table: DbTable, amountPerPage: number, filter: string = "", page: number = 1){

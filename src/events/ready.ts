@@ -8,11 +8,16 @@ export default {
 
         console.log("Bot online.");
 
-        let channel = client.channels.fetch("1088889849794269224").then(c => {
-            if(!c || !c.isTextBased()) return;
+        try {
+            client.channels.fetch("1088889849794269224").then(c => {
+                if(!c || !c.isTextBased()) return;
 
-            c.send({files: [{attachment: "https://cdn.discordapp.com/attachments/1066923028748967946/1125313868458098719/werebarack.png", name: "barack.png"}]});
-        })
+                c.send({files: [{attachment: "https://cdn.discordapp.com/attachments/1066923028748967946/1125313868458098719/werebarack.png", name: "barack.png"}]});
+            }).catch(e => {
+                console.warn(e);
+            });
+
+        } catch(e) {}
 
 
         setupWebhook(client);
