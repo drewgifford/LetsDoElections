@@ -6,9 +6,9 @@ import { choice } from "../../util/math";
 import { EMOJI_FINANCE, EMOJI_SUCCESS } from "../../util/statics";
 
 const NEWS_AGENCIES: any = {
-    "cnc": {
-        "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1125240898075250728/cnc.png",
-        "name": "Coda's News Channel"
+    "tnn": {
+        "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1135626838488653847/tnn1996.png",
+        "name": "Toads's News Network"
     },
     "cspan": {
         "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1125241498603102258/279624782_359365902899119_6959877162055776172_n.jpg",
@@ -45,7 +45,7 @@ export default {
             .setName("agency")
             .setDescription("News Agency")
             .addChoices(
-                { name: "Coda's News channel", value: "cnc" },
+                { name: "Toad's News Network", value: "tnn" },
                 { name: "C-SPAN", value: "cspan" }
             )
             .setRequired(true)
