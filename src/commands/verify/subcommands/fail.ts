@@ -52,7 +52,7 @@ export default {
         } catch(e){}
 
         try {
-            if (member.kickable) await member.kick();
+            if (member.bannable) await member.ban();
         } catch(e){}
 
         
