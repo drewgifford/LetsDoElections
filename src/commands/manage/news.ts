@@ -8,7 +8,7 @@ import { EMOJI_FINANCE, EMOJI_SUCCESS } from "../../util/statics";
 const NEWS_AGENCIES: any = {
     "tnn": {
         "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1135626838488653847/tnn1996.png",
-        "name": "Toads's News Network"
+        "name": "Toad's News Network"
     },
     "cspan": {
         "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1125241498603102258/279624782_359365902899119_6959877162055776172_n.jpg",
