@@ -22,6 +22,9 @@ export default {
                         { name: "D - Blue Dog", value: "d-bluedog" },
                         { name: "D - New Democrats", value: "d-newdem" },
                         { name: "D - Progressive", value: "d-progressive" },
+                        { name: "UCP - Patriot", value: "ucp-patriot" },
+                        { name: "UCP - Lincoln", value: "ucp-lincoln" },
+                        { name: "UCP - Liberty", value: "ucp-liberty" },
                     )
                     .setName("caucus")
                     .setDescription("Caucus to view")
