@@ -31,6 +31,9 @@ export default {
         
         for (var party of parties){
 
+
+            if(party.Hidden) continue;
+
             let locked = "";
             if(party.Locked) locked = " :lock:";
 

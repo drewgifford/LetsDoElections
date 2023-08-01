@@ -44,6 +44,8 @@ export default {
         
         for (var caucus of caucuses){
 
+            if(caucus.Hidden) continue;
+
             let locked = "";
             if(caucus.Locked) locked = " :lock:";
 

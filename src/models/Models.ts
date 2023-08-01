@@ -61,6 +61,7 @@ export interface TableCaucus extends TableRow {
     Seats: string,
     Whips: any[],
     Color: string,
+    Hidden: boolean,
 }
 
 export interface TableParty extends TableRow {
@@ -81,6 +82,7 @@ export interface TableParty extends TableRow {
     UserBalance: number,
     Dues: number,
     Whips: any[],
+    Hidden: boolean,
 }
 
 export interface TableState extends TableRow {

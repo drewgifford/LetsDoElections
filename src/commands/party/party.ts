@@ -19,8 +19,7 @@ export default {
                 .addStringOption(option =>
                     option.addChoices(
                         { name: "Democratic", value: "D" },
-                        { name: "Liberty Coalition", value: "L" },
-                        { name: "Christian Democratic Union", value: "C" },
+                        { name: "United Conservative Party", value: "U" },
                         { name: "Independent", value: "I" }
                     )
                     .setName("party")
@@ -36,8 +35,7 @@ export default {
                 .addStringOption(option =>
                     option.addChoices(
                         { name: "Democratic", value: "D" },
-                        { name: "Liberty Coalition", value: "L" },
-                        { name: "Christian Democratic Union", value: "C" },
+                        { name: "United Conservative Party", value: "U" },
                         { name: "Independent", value: "I" }
                     )
                 .setName("party")
@@ -58,8 +56,7 @@ export default {
             .addStringOption(option =>
                 option.addChoices(
                     { name: "Democratic", value: "D" },
-                    { name: "Liberty Coalition", value: "L" },
-                    { name: "Christian Democratic Union", value: "C" },
+                    { name: "United Conservative Party", value: "U" },
                     { name: "Independent", value: "I" }
                 )
                 .setName("party")
@@ -75,8 +72,7 @@ export default {
             .addStringOption(option =>
                 option.addChoices(
                     { name: "Democratic", value: "D" },
-                    { name: "Liberty Coalition", value: "L" },
-                    { name: "Christian Democratic Union", value: "C" },
+                    { name: "United Conservative Party", value: "U" },
                     { name: "Independent", value: "I" }
                 )
                 .setName("party")
