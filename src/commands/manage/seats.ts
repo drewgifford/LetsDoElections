@@ -26,9 +26,10 @@ export default {
                 { name: "D - Blue Dog", value: "d-bluedog" },
                 { name: "D - New Democrats", value: "d-newdem" },
                 { name: "D - Progressive", value: "d-progressive" },
+                { name: "UCP - Patriot", value: "ucp-patriot" },
+                { name: "UCP - Lincoln", value: "ucp-lincoln" },
+                { name: "UCP - Liberty", value: "ucp-liberty" },
                 { name: "I - Generic", value: "i-generic" },
-                { name: "LC - Generic", value: "lc-generic"},
-                { name: "CDU - Generic", value: "cdu-generic"},
             )
         )
         .addStringOption(option =>
