@@ -44,7 +44,7 @@ export default {
             querystring.stringify({
                 api_dev_key: PASTEBIN_KEY,
                 api_option: "paste",
-                api_paste_code: json,
+                api_paste_code: json, 
                 api_paste_format: "json",
                 api_paste_expire_data: "1W"
 
