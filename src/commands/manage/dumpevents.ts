@@ -4,6 +4,11 @@ import { TableCaucus, TableChamber, TableUser } from "../../models/Models";
 import { notifyError, notifyNoCharacter, notifyOtherNoCharacter } from "../../util/response";
 import { choice } from "../../util/math";
 import { EMOJI_FINANCE, EMOJI_SUCCESS } from "../../util/statics";
+import axios from "axios"
+
+require("dotenv").config();
+
+const PASTEBIN_KEY = process.env.PASTEBIN_KEY;
 
 const NEWS_AGENCIES: any = {
     "tnn": {
@@ -42,9 +47,36 @@ export default {
 
         let attachment = new AttachmentBuilder(Buffer.from(json), { name : `${user.username}-campaign.json` });
 
-        return await interaction.reply({content: `Here is <@${user.id}>'s campaign JSON:`, files: [
-            attachment
-        ]})
+        await interaction.deferReply();
+
+        axios.post(
+            "https://pastebin.com/api/api_post.php",
+            {
+                "api_dev_key": PASTEBIN_KEY,
+                "api_paste_code": json,
+                "api_paste_format": "json",
+                "api_option": "paste",
+
+            }
+        ).then((response) => {
+
+            console.log(response.data);
+
+            /*return interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.})`, files: [
+                attachment
+            ]})*/
+            return interaction.reply({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+                attachment
+            ]})
+
+        }).catch(e => {
+            console.warn(e);
+            return interaction.reply({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+                attachment
+            ]})
+        });
+
+       
 
     }
 
