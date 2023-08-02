@@ -65,13 +65,13 @@ export default {
             /*return interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.})`, files: [
                 attachment
             ]})*/
-            return interaction.reply({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+            return interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
                 attachment
             ]})
 
         }).catch(e => {
             console.warn(e);
-            return interaction.reply({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+            return interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
                 attachment
             ]})
         });
