@@ -54,12 +54,8 @@ export default {
                 }
             }
         ).then((response) => {
-
-            console.log(response.data);
-            console.log(response.data.response.data);
             
-
-            interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.data.response.data})`, files: [
+            interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.data.replace("https://pastebin.com/","")})`, files: [
                 attachment
             ]})
 
