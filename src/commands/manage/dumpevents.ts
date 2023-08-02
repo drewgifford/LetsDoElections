@@ -5,21 +5,11 @@ import { notifyError, notifyNoCharacter, notifyOtherNoCharacter } from "../../ut
 import { choice } from "../../util/math";
 import { EMOJI_FINANCE, EMOJI_SUCCESS } from "../../util/statics";
 import axios from "axios"
+import querystring from "querystring";
 
 require("dotenv").config();
 
 const PASTEBIN_KEY = process.env.PASTEBIN_KEY;
-
-const NEWS_AGENCIES: any = {
-    "tnn": {
-        "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1135626838488653847/tnn1996.png",
-        "name": "Toad's News Network"
-    },
-    "cspan": {
-        "logo": "https://cdn.discordapp.com/attachments/1092538403960135831/1125241498603102258/279624782_359365902899119_6959877162055776172_n.jpg",
-        "name": "C-SPAN"
-    }
-}
 
 export default {
     
@@ -51,27 +41,32 @@ export default {
 
         axios.post(
             "https://pastebin.com/api/api_post.php",
-            {
-                "api_dev_key": PASTEBIN_KEY,
-                "api_paste_code": json,
-                "api_paste_format": "json",
-                "api_option": "paste",
+            querystring.stringify({
+                api_dev_key: PASTEBIN_KEY,
+                api_option: "paste",
+                api_paste_code: json,
+                api_paste_format: "json",
+                api_paste_expire_data: "1W"
 
+            }), {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
             }
         ).then((response) => {
 
             console.log(response.data);
+            console.log(response.data.response.data);
+            
 
-            /*return interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.})`, files: [
-                attachment
-            ]})*/
-            return interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+            interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.})`, files: [
                 attachment
             ]})
 
         }).catch(e => {
             console.warn(e);
-            return interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+
+            interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
                 attachment
             ]})
         });
