@@ -60,7 +60,7 @@ export default {
         }).catch(e => {
             console.warn(e);
 
-            interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input:`, files: [
+            interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input at http://letsdoelections.com/campaign:`, files: [
                 attachment
             ]})
         });
