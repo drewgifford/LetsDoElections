@@ -55,9 +55,7 @@ export default {
             }
         ).then((response) => {
             
-            interaction.reply({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.data.replace("https://pastebin.com/","")})`, files: [
-                attachment
-            ]})
+            interaction.followUp({content: `[Click here to view ${user.username}'s campaign](http://letsdoelections.com/campaign?id=${response.data.replace("https://pastebin.com/","")})`})
 
         }).catch(e => {
             console.warn(e);
