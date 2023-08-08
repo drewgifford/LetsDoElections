@@ -36,7 +36,7 @@ export default {
         let createdDate = Date.parse(bill.Created);
 
         let embed = new EmbedBuilder()
-            .setTitle(`${emoji} ${billId} ${bill.Name}`)
+            .setTitle(`${emoji} ${billId} ${bill.Name}`.substring(0, 99))
             .setDescription(`[Click to view bill](${bill.Url})`)
             .addFields(
                 {
