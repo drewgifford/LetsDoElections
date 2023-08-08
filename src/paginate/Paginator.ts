@@ -46,7 +46,6 @@ export default class Paginator {
 
         this.page += diff;
 
-        console.log("CHECKING", this.page)
 
         let items = await getPage(this.dbTable, this.size, this.filter, this.page);
 
@@ -109,6 +108,8 @@ export default class Paginator {
         this.interaction.channel?.awaitMessageComponent({filter: filter, time: 60000})
             .then(collected => {
 
+                try {
+
                 if(!collected) return;
 
                 collected.deferUpdate();
@@ -118,6 +119,10 @@ export default class Paginator {
                 }
                 else {
                     this.changePage(-1)
+                }
+                } catch(e) {
+                    console.warn(e);
+                    return;
                 }
             })
             .catch(collected => {

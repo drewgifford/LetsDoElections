@@ -29,7 +29,6 @@ export default {
         let id = interaction.options.getString("id", true);
         let votes = interaction.options.getNumber("votes", true);
 
-        console.log(interaction.options.getString("json", true));
 
         let json = JSON.parse(interaction.options.getString("json", true)) as Result;
 
@@ -76,7 +75,6 @@ export default {
 
             }
 
-            console.log(user);
 
 
         }

@@ -58,7 +58,6 @@ export default {
             let bankBalance = (dbUser.BankBalance | 0).toLocaleString("en-US");
             let campaignBalance = (dbUser.CampaignBalance | 0).toLocaleString("en-US");
 
-            console.log(dbUser)
 
             // Respond with Embed
             embed

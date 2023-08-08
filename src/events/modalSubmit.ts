@@ -16,6 +16,8 @@ export default {
         }
     ) {
 
+        try {
+
         if(!interaction.isModalSubmit()) return;
 
         let modalId = interaction.customId;
@@ -44,6 +46,11 @@ export default {
                 await interaction.deferReply();
                 return await submitBillModal.default(interaction, dbUser);
 
+        }
+
+        } catch(e){
+            console.warn(e);
+            return;
         }
 
     }

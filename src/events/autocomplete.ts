@@ -20,7 +20,7 @@ export default {
 
         } catch (error){
 
-            console.error(error);
+            console.warn(error);
 
         }
 

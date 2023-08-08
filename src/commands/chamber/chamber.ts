@@ -65,7 +65,6 @@ export default {
         
     execute: async function(interaction: ChatInputCommandInteraction){
 
-        console.log(interaction.options.getSubcommand());
 
         switch(interaction.options.getSubcommand()){
             case "list":

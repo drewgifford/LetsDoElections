@@ -119,7 +119,6 @@ export async function processUpdate(client: DiscordClient, body: WebhookBody){
     
     }
 
-    console.log(body);
     
 
     // What we have to update: Nickname, Caucus, Party, State, District.

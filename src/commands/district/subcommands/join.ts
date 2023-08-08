@@ -36,7 +36,6 @@ export default {
             return await notifyNoCharacter(interaction);
         }
 
-        console.log(userDb);
 
         let stateId = userDb.State.length > 0 ? userDb.State[0].value : null;
 
@@ -46,7 +45,6 @@ export default {
 
         let state = (await getRow(DbTable.States, UuidFields.States, stateId)) as TableState;
 
-        console.log(state);
 
         // CHECK #1: Does the user have a district?
         if (userDb.District || userDb.District > 0){

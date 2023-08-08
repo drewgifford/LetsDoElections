@@ -129,7 +129,6 @@ export default {
                 let party = parties.find(p => p.Caucuses.map(d => d.value).includes(c.Uuid)) as TableParty;
                 let partyWhips = party.Whips.map(w => w.value);
 
-                console.log(partyWhips);
 
                 Object.keys(voteObject).reverse().forEach(k => {
                     if(!cont) return;
@@ -243,7 +242,6 @@ export default {
 
 
         let validUserIds = chamber.Users.map(u => u.value);
-        console.log(validUserIds);
 
 
 

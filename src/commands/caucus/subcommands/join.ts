@@ -43,6 +43,10 @@ export default {
             return await notifyNoCharacter(interaction);
         }
 
+        if(!caucus){
+            return await notifyError(interaction, "An error occured. The caucus was null?");
+        }
+
         if(caucus.Locked){
             return await notifyError(interaction, "This race is locked.");
         }

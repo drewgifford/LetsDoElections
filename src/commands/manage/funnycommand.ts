@@ -63,7 +63,7 @@ export default {
                 ROLES.push(race.Role);
             }
         }*/
-        let count = 0;
+        /*let count = 0;
 
         await interaction.reply("Grandfathering users into Verification");
 
@@ -84,7 +84,7 @@ export default {
 
             interaction.followUp("Done! I verified " + count + " people.");
 
-        });
+        });*/
         
         
 
