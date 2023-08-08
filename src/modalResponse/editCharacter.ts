@@ -54,7 +54,7 @@ export default async function(interaction: ModalSubmitInteraction, dbUser: Table
         },
         {
             name: "Description",
-            value: `${dbUser.Description || "*No description set*"}`
+            value: `${dbUser.Description || "*No description set*"}`.substring(0, 1000)
         }
         
         
