@@ -88,7 +88,7 @@ export default {
         let bills = (await listRows(DbTable.Bills, `${searchParam}size=25&order_by=-Created`)) as TableBill[]
 
 
-        let filtered = bills.map(b => [`${b.Uuid} ${b.Name}`, b.Uuid]);
+        let filtered = bills.map(b => [`${b.Uuid} ${b.Name}`.substring(0, 99), b.Uuid]);
 
         await interaction.respond(
             filtered.map(choice => ({name: choice[0], value: choice[1]}))
