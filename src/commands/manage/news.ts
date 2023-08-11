@@ -50,10 +50,10 @@ export default {
             )
             .setRequired(true)
         )
-        .addAttachmentOption(option =>
+        .addStringOption(option =>
             option
             .setName("media")
-            .setDescription("Media to add to news ping")
+            .setDescription("Media URL to add to news ping")
             .setRequired(false)
         ),
 
@@ -65,7 +65,7 @@ export default {
 
         let headline = interaction.options.get("headline", true).value as string;
         let description = interaction.options.get("description", true).value as string;
-        let media = interaction.options.getAttachment("media");
+        let media = interaction.options.get("media", false) as string | null;
 
         let imageUrl = NEWS_AGENCIES[newsId].logo;
         let name = NEWS_AGENCIES[newsId].name;
@@ -98,7 +98,7 @@ export default {
             .setColor("#ff0000")
             .setFooter({iconURL: interaction.user.avatarURL() || undefined, text: `Written by ${interaction.user.username}`})
         
-        if(media) embed.setImage(media.url);
+        if(media) embed.setImage(media);
 
         await msg.delete();
         await webhook.send({content: "<@&" + role.id + ">", embeds: [embed], username: name, avatarURL: imageUrl});
