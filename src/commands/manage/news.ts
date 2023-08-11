@@ -65,7 +65,7 @@ export default {
 
         let headline = interaction.options.get("headline", true).value as string;
         let description = interaction.options.get("description", true).value as string;
-        let media = interaction.options.get("media", false).value as string | null;
+        let media = interaction.options.get("media", false)?.value as string | null;
 
         let imageUrl = NEWS_AGENCIES[newsId].logo;
         let name = NEWS_AGENCIES[newsId].name;
