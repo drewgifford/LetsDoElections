@@ -39,31 +39,9 @@ export default {
 
         await interaction.deferReply();
 
-        axios.post(
-            "https://pastebin.com/api/api_post.php",
-            querystring.stringify({
-                api_dev_key: PASTEBIN_KEY,
-                api_option: "paste",
-                api_paste_code: json, 
-                api_paste_format: "json",
-                api_paste_expire_data: "1W"
-
-            }), {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            }
-        ).then((response) => {
-            
-            interaction.followUp({content: `[Click here](http://letsdoelections.com/campaign?id=${response.data.replace("https://pastebin.com/","")}) to view ${user.username}'s campaign.`})
-
-        }).catch(e => {
-            console.warn(e);
-
-            interaction.followUp({content: `An error occured when uploading to Pastebin. Here is the raw JSON to manually input at http://letsdoelections.com/campaign:`, files: [
+        await interaction.followUp({content: `Here is the raw JSON to manually input at http://letsdoelections.com/campaign:`, files: [
                 attachment
-            ]})
-        });
+        ]})
 
        
 
