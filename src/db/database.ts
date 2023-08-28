@@ -47,7 +47,7 @@ export async function listRows(table: DbTable, filter: string = ""){
 
     let response = await axios({
         method: "GET",
-        url: `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true${filter}`,
+        url: `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true&size=1024${filter}`,
         headers: HEADERS
     })
 
