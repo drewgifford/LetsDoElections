@@ -34,14 +34,17 @@ export default {
 
         for (var statesSub of statesSubs){
 
+            let partOne = statesSub.slice(0, 25).map(s => `\`${s.Uuid}\` **${s.Name}** - ${s.Users.length} members${s.Locked ? " :lock:" : ""}`).join("\n");
+            let partTwo = statesSub.slice(25, 50).map(s => `\`${s.Uuid}\` **${s.Name}** - ${s.Users.length} members${s.Locked ? " :lock:" : ""}`).join("\n");
+
             embed.addFields({
                 name: "\u200b",
-                value: statesSub.slice(0, 25).map(s => `\`${s.Uuid}\` **${s.Name}** - ${s.Users.length} members${s.Locked ? " :lock:" : ""}`).join("\n"),
+                value: (partOne == "" ? "" : partOne),
                 inline: true
             })
             embed.addFields({
                 name: "\u200b",
-                value: statesSub.slice(25, 50).map(s => `\`${s.Uuid}\` **${s.Name}** - ${s.Users.length} members${s.Locked ? " :lock:" : ""}`).join("\n"),
+                value: (partTwo == "" ? "" : partTwo),
                 inline: true
             })
 
