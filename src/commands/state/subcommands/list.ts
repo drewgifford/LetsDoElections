@@ -39,12 +39,12 @@ export default {
 
             embed.addFields({
                 name: "\u200b",
-                value: (partOne == "" ? "" : partOne),
+                value: (partOne == "" ? "\u200b" : partOne),
                 inline: true
             })
             embed.addFields({
                 name: "\u200b",
-                value: (partTwo == "" ? "" : partTwo),
+                value: (partTwo == "" ? "\u200b" : partTwo),
                 inline: true
             })
 
