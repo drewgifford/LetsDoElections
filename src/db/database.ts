@@ -37,17 +37,14 @@ export enum UuidFields {
     ModelResults = "field_1237979"
 }
 
-export async function listRows(table: DbTable, filter: string = ""){
-
-    if (filter != ""){
-        filter = "&" + filter;
-    }
+export async function listRowsFromString(table: DbTable, string: string){
 
 
+    console.log("Getting more results");
 
     let response = await axios({
         method: "GET",
-        url: `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true&size=200${filter}`,
+        url: string,
         headers: HEADERS
     })
 
@@ -56,9 +53,31 @@ export async function listRows(table: DbTable, filter: string = ""){
         return [] as TableRow[];
     }
 
-    // We did get some data back
-    return response.data.results as TableRow[];
+    var results = response.data.results as TableRow[];
+
+    if("next" in response.data && response.data.next != "" && response.data.next != null){
+
+        console.log(response.data.next);
+
+        var newRows = await listRowsFromString(table, response.data.next as string) as TableRow[];
+
+        results = results.concat(newRows);
+    }
+
+    return results;
+
 }
+
+export async function listRows(table: DbTable, filter: string = ""){
+
+    if (filter != ""){
+        filter = "&" + filter;
+    }
+
+    return await listRowsFromString(table, `https://api.baserow.io/api/database/rows/table/${table}/?user_field_names=true&size=200${filter}`);
+
+}
+
 export async function getValue(table: DbTable, uuidField: UuidFields, name: string){
 
     let row = await getRow(DbTable.Settings, UuidFields.Settings, name) as TableSetting | null;

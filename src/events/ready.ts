@@ -6,7 +6,7 @@ export default {
     name: "ready",
     async execute(client: DiscordClient) {
 
-        console.log("Bot online.");
+        console.log("Bot online. Logged in as " + client.user?.username + "#" + client.user?.discriminator);
 
         try {
             client.channels.fetch("1088889849794269224").then(c => {
