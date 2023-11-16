@@ -40,8 +40,7 @@ export interface TableRace extends TableRow {
     Members: number,
     Role: string,
     Locked: boolean,
-
-    TokenLocked: boolean,
+    
     TokensPerDay: number,
 
     Description: string,
