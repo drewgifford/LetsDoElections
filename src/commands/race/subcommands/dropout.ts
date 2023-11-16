@@ -42,7 +42,8 @@ export default {
 
         // Update user row
         let response = await updateRow(DbTable.Users, userDb.id, {
-            "Race": []
+            "Race": [],
+            "Tokens": 0
         })
 
         if(!response){

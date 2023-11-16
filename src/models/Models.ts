@@ -22,7 +22,9 @@ export interface TableUser extends TableRow {
     Caucus: any[]
     Race: any[],
     Bills: any[],
-    Chamber: any[]
+    Chamber: any[],
+
+    Tokens: number,
 
     CampaignBalance: number,
     BankBalance: number,
@@ -38,6 +40,10 @@ export interface TableRace extends TableRow {
     Members: number,
     Role: string,
     Locked: boolean,
+
+    TokenLocked: boolean,
+    TokensPerDay: number,
+
     Description: string,
     States: any[],
     Active: boolean,

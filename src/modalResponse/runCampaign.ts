@@ -47,7 +47,14 @@ export default async function(interaction: ModalSubmitInteraction, user: TableUs
         return await interaction.editReply("You provided an invalid Media URL");
     }
 
-    let channel = await interaction.client.channels.fetch(race.Channel);
+
+    let channel;
+    try {
+        channel = await interaction.client.channels.fetch(race.Channel);
+    }
+    catch(e){
+        return await interaction.editReply("The campaign channel could not be found.");
+    }
 
     if(!channel || !(channel.isTextBased())){
         return await interaction.editReply("The campaign channel could not be found.");
@@ -56,9 +63,14 @@ export default async function(interaction: ModalSubmitInteraction, user: TableUs
     channel.send({content: `<@${interaction.user.id}>`, embeds: [campaignEmbed]}).then(async message => {
 
 
+        await updateRow(DbTable.Users, user.id, {
+            "Tokens": user.Tokens - states.length
+        });
+
+
         let embed = new EmbedBuilder()
             .setTitle(`${EMOJI_SUCCESS} Campaign ${eventType} Ran`)
-            .setDescription(`Ran ${eventType} in ${states.join(', ')}\n[Click to view campaign message](${message.url})`);
+            .setDescription(`Ran ${eventType} in ${states.join(', ')}\n**:coin: ${states.length} tokens used.** You have :coin: ${user.Tokens - states.length} tokens remaining.\n[Click to view campaign message](${message.url})`);
 
 
         let number = (await listRows(DbTable.Events)).length + 1;

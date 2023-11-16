@@ -6,20 +6,19 @@ import { choice } from "../../util/math";
 import { EMOJI_FINANCE } from "../../util/statics";
 
 let tips = [
-    "Your campaign balance resets every cycle.",
-    "Pay another user with /pay.",
-    "Transfer funds from your bank to your campaign using /fund"
+    "Your tokens reset every cycle.",
+    "You automatically earn new tokens every day at 9:00AM Eastern when running in a race.",
 ]
 
 export default {
     
     data: new SlashCommandBuilder()
-        .setName("balance")
-        .setDescription("Check the balance of yourself or another user.")
+        .setName("tokens")
+        .setDescription("Check the tokens of yourself or another user.")
         .addUserOption(option => option
 
             .setName("user")
-            .setDescription("The user to check the balance of. Defaults to yourself.")
+            .setDescription("The user to check the tokens of. Defaults to yourself.")
             .setRequired(false)
 
         ),
@@ -27,9 +26,7 @@ export default {
 
     async execute(interaction: CommandInteraction) { 
 
-        return await notifyError(interaction, "This command is deprecated.");
-
-        /*let user: User = interaction.options.getUser("user", false) || interaction.user;
+        let user: User = interaction.options.getUser("user", false) || interaction.user;
 
         let userText = `<@${user.id}>'s`;
 
@@ -42,18 +39,16 @@ export default {
 
         if (dbUser){
 
-            let bankBalance = (dbUser.BankBalance | 0).toLocaleString("en-US");
-            let campaignBalance = (dbUser.CampaignBalance | 0).toLocaleString("en-US");
+            let tokenBalance = (dbUser.Tokens | 0).toLocaleString("en-US");
 
             console.log(dbUser)
 
             // Respond with Embed
             let embed = new EmbedBuilder()
-                .setTitle(`${EMOJI_FINANCE} User Balance`)
+                .setTitle(`${EMOJI_FINANCE} User Wallet`)
                 .setDescription(
-                    `Viewing **${userText}** wallet:\n\n` + 
-                    `💰 **Bank:** \`$${bankBalance}\`\n` + 
-                    `💸 **Campaign:** \`$${campaignBalance}\`\n\u200b`
+                    `Viewing **${userText}** wallet:\n` + 
+                    `:coin: **Tokens:** \`${tokenBalance}\`\n`
                 )
                 .setFooter({
                     text: "🛈 Tip: " + choice(tips)
@@ -70,7 +65,7 @@ export default {
             }
 
         }
-        */
+        
 
 
     }

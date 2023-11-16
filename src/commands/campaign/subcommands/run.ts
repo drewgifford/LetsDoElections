@@ -51,6 +51,11 @@ export default {
             return await notifyError(interaction, `You must run this campaign in at least one state. Use the options \`state1\`, \`state2\`, and \`state3\` to do so.`);
         }
 
+        let tokens = user.Tokens;
+        if(states.length > tokens){
+            return await notifyError(interaction, `You need :coin: **${states.length} tokens** to run that event in those states. You have :coin: **${tokens} tokens.** Run \`/collecttokens\` to collect your daily token allowance.`);
+        }
+
 
         let modal = new ModalBuilder()
             .setCustomId(`runCampaign|${eventType}|${states.join(',')}`)

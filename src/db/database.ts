@@ -194,3 +194,21 @@ export async function updateRow(table: DbTable, rowId: number, data: object){
     return false;
 
 }
+
+export async function updateMany(table: DbTable, data: object[]){
+
+    if(data.length == 0) return true;
+
+    let response = await axios({
+        method: "PATCH",
+        url: `https://api.baserow.io/api/database/rows/table/${table}/batch/?user_field_names=true`,
+        headers: HEADERS,
+        data: {
+            "items": data
+        }
+    });
+
+    if(response) return true;
+    return false;
+
+}
