@@ -7,7 +7,7 @@ import { EMOJI_FINANCE } from "../../util/statics";
 
 let tips = [
     "Your tokens reset every cycle.",
-    "You automatically earn new tokens every day at 9:00AM Eastern when running in a race.",
+    "You automatically earn new tokens every day at 11:00AM Eastern when running in a race.",
 ]
 
 export default {

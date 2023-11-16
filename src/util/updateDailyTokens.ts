@@ -16,7 +16,7 @@ export async function updateDailyTokens(client: Client){
     let races = await listRows(DbTable.Races) as TableRace[];
 
     let racesToUpdate = races.filter((r => (!(r.TokenLocked || r.TokensPerDay == 0 || !r.Active))));
-    let rolesToPing = races.map(r => r.Role);
+    let rolesToPing = racesToUpdate.map(r => r.Role);
 
     let data: object[] = [];
 
